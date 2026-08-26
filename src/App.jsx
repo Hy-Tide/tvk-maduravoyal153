@@ -6,6 +6,10 @@ import tvkBanner2 from './assets/Banner_2.png';
 import tamilMedicalCamp from './assets/tamil_medical_camp.jpg';
 import tamilGrievanceHelp from './assets/tamil_grievance_help.jpg';
 import tamilYouthEvent from './assets/tamil_youth_event.jpg';
+import tamilRallyHero from './assets/tamil_rally_hero.jpg';
+import bannerVijayRally from './assets/banner_vijay_rally.jpg';
+import bannerVijaySpeech from './assets/banner_vijay_speech.jpg';
+import bannerVijayStage from './assets/banner_vijay_stage.jpg';
 import { translations } from './translations';
 import './App.css';
 
@@ -152,6 +156,8 @@ function App() {
     email: '',
     address: '',
     subject: '',
+    voterId: '',
+    image: null,
     details: ''
   });
   const [formError, setFormError] = useState('');
@@ -176,7 +182,7 @@ function App() {
   // Scroll listener to auto-highlight active section in header nav
   useEffect(() => {
     const handleScroll = () => {
-      const sections = ['home', 'about', 'contact', 'complaint'];
+      const sections = ['home', 'about', 'gallery', 'contact', 'complaint'];
       const scrollPosition = window.scrollY + 120;
 
       for (let i = sections.length - 1; i >= 0; i--) {
@@ -194,7 +200,11 @@ function App() {
 
   // Form input change handler
   const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (e.target.name === 'image') {
+      setFormData({ ...formData, image: e.target.files[0] });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
     setFormError('');
   };
 
@@ -203,8 +213,13 @@ function App() {
     e.preventDefault();
 
     if (!formData.name.trim() || !formData.phone.trim() || !formData.email.trim() ||
-      !formData.address.trim() || !formData.subject.trim() || !formData.details.trim()) {
+      !formData.address.trim() || !formData.subject.trim() || !formData.voterId.trim() || !formData.details.trim()) {
       setFormError(t.valRequired);
+      return;
+    }
+
+    if (formData.voterId.trim().length < 10) {
+      setFormError(t.valInvalidVoterId);
       return;
     }
 
@@ -235,6 +250,8 @@ function App() {
       email: '',
       address: '',
       subject: '',
+      voterId: '',
+      image: null,
       details: ''
     });
   };
@@ -307,6 +324,14 @@ function App() {
                 onClick={() => scrollToSection('about')}
               >
                 {t.navAbout}
+              </button>
+            </li>
+            <li>
+              <button
+                className={`nav-link ${activeSection === 'gallery' ? 'active' : ''}`}
+                onClick={() => scrollToSection('gallery')}
+              >
+                {t.navGallery}
               </button>
             </li>
             <li>
@@ -543,6 +568,43 @@ function App() {
           </div>
         </section>
 
+        {/* GALLERY SECTION */}
+        <section id="gallery" className="page-section gallery-section">
+          <div className="container">
+            <div className="about-new-header">
+              <span className="about-new-sub">{t.galleryHeaderSub}</span>
+              <div className="about-new-title-box">
+                <div className="about-new-lines">
+                  <div className="line-red"></div>
+                  <div className="line-yellow"></div>
+                </div>
+                <h2 className="about-new-main-title">{t.galleryHeaderTitle}</h2>
+              </div>
+            </div>
+            
+            <div className="gallery-grid">
+              <div className="gallery-item">
+                <img src={tamilRallyHero} alt="TVK Rally" />
+              </div>
+              <div className="gallery-item">
+                <img src={tamilMedicalCamp} alt="Medical Camp" />
+              </div>
+              <div className="gallery-item">
+                <img src={tamilGrievanceHelp} alt="Grievance Help" />
+              </div>
+              <div className="gallery-item">
+                <img src={bannerVijayRally} alt="Vijay Rally" />
+              </div>
+              <div className="gallery-item">
+                <img src={bannerVijaySpeech} alt="Vijay Speech" />
+              </div>
+              <div className="gallery-item">
+                <img src={bannerVijayStage} alt="Vijay Stage" />
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* SECTION 3: CONTACT (DEDICATED CONTACT DETAILS + GOOGLE MAPS ONLY) */}
         <section id="contact" className="page-section contact-section">
           <div className="container">
@@ -744,15 +806,40 @@ function App() {
                       />
                     </div>
 
+                    <div className="form-row">
+                      <div className="form-group">
+                        <label className="form-label">{t.formSubject}</label>
+                        <input
+                          type="text"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleInputChange}
+                          className="form-input"
+                          placeholder={t.formSubjectPlaceholder}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label className="form-label">{t.formVoterId}</label>
+                        <input
+                          type="text"
+                          name="voterId"
+                          value={formData.voterId}
+                          onChange={handleInputChange}
+                          className="form-input"
+                          placeholder={t.formVoterIdPlaceholder}
+                        />
+                      </div>
+                    </div>
+
                     <div className="form-group">
-                      <label className="form-label">{t.formSubject}</label>
+                      <label className="form-label">{t.formImage}</label>
                       <input
-                        type="text"
-                        name="subject"
-                        value={formData.subject}
+                        type="file"
+                        name="image"
+                        accept="image/*"
                         onChange={handleInputChange}
-                        className="form-input"
-                        placeholder={t.formSubjectPlaceholder}
+                        className="form-input file-input"
+                        style={{ padding: '10px', background: 'rgba(255, 255, 255, 0.05)' }}
                       />
                     </div>
 

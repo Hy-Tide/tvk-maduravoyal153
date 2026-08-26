@@ -1,11 +1,12 @@
 export const translations = {
   ta: {
-    brandName: "தமிழக வெற்றி கழகம்",
-    brandSub: "மதுரவாயல் தொகுதி",
+    brandName: "தமிழக வெற்றிக் கழகம்",
+    brandSub: "மதுரவாயல் தொகுதி - 153 வது வட்டம்",
 
     // Navigation
     navHome: "முகப்பு",
     navAbout: "எங்களை பற்றி",
+    navGallery: "புகைப்படங்கள்",
     navContact: "தொடர்புக்கு",
     navComplaint: "புகார் பதிவு",
 
@@ -14,14 +15,14 @@ export const translations = {
 
     // Home Page
     heroTagline1: "மக்களுக்காக, மக்களால்",
-    heroTitlePrefix: "தமிழக வெற்றி கழகம்",
+    heroTitlePrefix: "தமிழக வெற்றிக் கழகம்",
     heroTitleSub: "மதுரவாயல் தொகுதி",
     heroSubtitle: "மக்களின் குரலாக, சேவை மனப்பான்மையோடு செயல்படும் மக்கள் இயக்கம்.",
     heroCtaComplaint: "புகார் பதிவு செய்க",
     heroCtaAbout: "எங்களைப் பற்றி",
 
     homeIntroTitle: "எங்கள் இயக்க அறிமுகம்",
-    homeIntroPara: "தமிழக வெற்றி கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும், மதுரவாயல் தொகுதி மக்களின் குறைகளை தீர்க்கவும் அர்ப்பணிக்கப்பட்ட இயக்கம்.",
+    homeIntroPara: "தமிழக வெற்றிக் கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும், மதுரவாயல் தொகுதி மக்களின் குறைகளை தீர்க்கவும் அர்ப்பணிக்கப்பட்ட இயக்கம்.",
 
     stat1Num: "50,000+",
     stat1Label: "உறுப்பினர்கள்",
@@ -42,7 +43,7 @@ export const translations = {
     aboutHeaderTitle: "எங்களை பற்றி",
     aboutHeaderSub: "",
     aboutWhoTitle: "மக்களின் குரலாக, மக்களின் தேவைகளுக்காக செயல்படும் இயக்கம்",
-    aboutWhoPara1: "தமிழக வெற்றி கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும் தொடர்ந்து உழைக்கும் ஒரு மக்கள் இயக்கம். நமது கொள்கை: ஒவ்வொரு மனிதனும் கண்ணியமாக வாழ வேண்டும்.",
+    aboutWhoPara1: "தமிழக வெற்றிக் கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும் தொடர்ந்து உழைக்கும் ஒரு மக்கள் இயக்கம். நமது கொள்கை: ஒவ்வொரு மனிதனும் கண்ணியமாக வாழ வேண்டும்.",
     aboutWhoPara2: "",
 
     aboutPurposeTitle: "",
@@ -53,10 +54,14 @@ export const translations = {
     purpose3Title: "நம் அணுகுமுறை",
     purpose3Desc: "வெளிப்படைத்தன்மை, நேர்மை, மக்களிடையே நேரடி தொடர்பு மூலம் செயல்படுவது.",
 
+    // Gallery Page
+    galleryHeaderTitle: "புகைப்பட தொகுப்பு",
+    galleryHeaderSub: "எங்கள் மக்கள் பணி மற்றும் நிகழ்வுகள்",
+
     // Contact Page
     contactHeaderTitle: "தொடர்பு கொள்ள",
     contactHeaderSub: "எங்கள் அலுவலக முகவரி மற்றும் தொலைபேசி விவரங்கள்",
-    contactOrgName: "தமிழக வெற்றி கழகம் — மதுரவாயல் தொகுதி",
+    contactOrgName: "தமிழக வெற்றிக் கழகம் — மதுரவாயல் தொகுதி",
     contactPhoneTitle: "தொலைபேசி எண்கள்",
     contactPhoneVal: "+91 44 2345 6789 / +91 98765 43210",
     contactTollFree: "இலவச எண்: 1800-TVK-MAD (1800 885 623)",
@@ -85,6 +90,9 @@ export const translations = {
     formAddressPlaceholder: "கதவு எண், தெரு பெயர், வார்டு எண்",
     formSubject: "புகாரின் தலைப்பு *",
     formSubjectPlaceholder: "எ.கா: தெருவிளக்கு பழுது / குடிநீர் விநியோகப் பிரச்சினை",
+    formVoterId: "வாக்காளர் அடையாள அட்டை எண் *",
+    formVoterIdPlaceholder: "எ.கா: ABC1234567",
+    formImage: "புகைப்படம் இணைக்க (விருப்பமிருந்தால்)",
     formDetails: "புகார் விவரம் *",
     formDetailsPlaceholder: "உங்கள் பிரச்சினையை விரிவாக விளக்கமாக எழுதவும்...",
     formSubmitBtn: "புகாரை சமர்ப்பிக்குக",
@@ -93,6 +101,7 @@ export const translations = {
     valRequired: "அனைத்து கட்டாய புலன்களையும் நிரப்பவும்.",
     valInvalidEmail: "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்.",
     valInvalidPhone: "சரியான 10 இலக்க தொலைபேசி எண்ணை உள்ளிடவும்.",
+    valInvalidVoterId: "சரியான வாக்காளர் அடையாள அட்டை எண்ணை (10 எழுத்துக்கள்/எண்கள்) உள்ளிடவும்.",
 
     successTitle: "உங்கள் புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!",
     successMessage: "உங்கள் புகார் விவரங்கள் TVK மதுரவாயல் மின்னஞ்சலுக்கு (maduravoyal@tvk.org.in) அனுப்பப்பட்டுள்ளது.",
@@ -101,18 +110,19 @@ export const translations = {
     newComplaintBtn: "மற்றுமொரு புகார் பதிவு செய்ய",
 
     // Footer
-    footerDesc: "தமிழக வெற்றி கழகம் — மதுரவாயல் தொகுதி. மக்களுக்காக, மக்களால் இயங்கும் நேர்மையான மக்கள் இயக்கம்.",
+    footerDesc: "தமிழக வெற்றிக் கழகம் — மதுரவாயல் தொகுதி. மக்களுக்காக, மக்களால் இயங்கும் நேர்மையான மக்கள் இயக்கம்.",
     footerQuickLinks: "பக்கங்கள்",
-    footerCopyright: "தமிழக வெற்றி கழகம் — மதுரவாயல் தொகுதி. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
+    footerCopyright: "தமிழக வெற்றிக் கழகம் — மதுரவாயல் தொகுதி. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
     footerDesignedBy: "Designed and Developed by Hytide Tech"
   },
   en: {
     brandName: "TAMILAGA VETTRI KAZHAGAM",
-    brandSub: "Maduravoyal Constituency",
+    brandSub: "Maduravoyal Constituency - 153rd Ward",
 
     // Navigation
     navHome: "Home",
     navAbout: "About Us",
+    navGallery: "Gallery",
     navContact: "Contact",
     navComplaint: "Complaint",
 
@@ -160,6 +170,10 @@ export const translations = {
     purpose3Title: "Our Approach",
     purpose3Desc: "Acting through transparency, honesty, and direct communication with the people.",
 
+    // Gallery Page
+    galleryHeaderTitle: "Photo Gallery",
+    galleryHeaderSub: "Our Public Services and Events",
+
     // Contact Page
     contactHeaderTitle: "Contact Us",
     contactHeaderSub: "Official Address and Direct Communication Channels",
@@ -192,6 +206,9 @@ export const translations = {
     formAddressPlaceholder: "Door No, Street Name, Area, Ward No",
     formSubject: "Complaint Subject *",
     formSubjectPlaceholder: "e.g. Broken streetlight on 2nd Main Rd",
+    formVoterId: "Voter ID Number *",
+    formVoterIdPlaceholder: "e.g. ABC1234567",
+    formImage: "Upload Image (Optional)",
     formDetails: "Complaint Description *",
     formDetailsPlaceholder: "Describe your issue in detail...",
     formSubmitBtn: "Submit Complaint",
@@ -200,6 +217,7 @@ export const translations = {
     valRequired: "Please fill in all mandatory fields.",
     valInvalidEmail: "Please enter a valid email address.",
     valInvalidPhone: "Please enter a valid 10-digit contact number.",
+    valInvalidVoterId: "Please enter a valid 10-character Voter ID number.",
 
     successTitle: "Complaint Successfully Submitted!",
     successMessage: "Your complaint details have been dispatched to TVK Maduravoyal official email (maduravoyal@tvk.org.in).",
