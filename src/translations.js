@@ -17,12 +17,12 @@ export const translations = {
     heroTagline1: "மக்களுக்காக, மக்களால்",
     heroTitlePrefix: "தமிழக வெற்றிக் கழகம்",
     heroTitleSub: "மதுரவாயல் தொகுதி",
-    heroSubtitle: "மக்களின் குரலாக, சேவை மனப்பான்மையோடு செயல்படும் மக்கள் இயக்கம்.",
+    heroSubtitle: "மக்களின் குரலாக, சேவை மனப்பான்மையோடு செயல்படும் மக்கள் கழகம்.",
     heroCtaComplaint: "புகார் பதிவு செய்க",
     heroCtaAbout: "எங்களைப் பற்றி",
 
-    homeIntroTitle: "எங்கள் இயக்க அறிமுகம்",
-    homeIntroPara: "தமிழக வெற்றிக் கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும், மதுரவாயல் தொகுதி மக்களின் குறைகளை தீர்க்கவும் அர்ப்பணிக்கப்பட்ட இயக்கம்.",
+    homeIntroTitle: "எங்கள் கழக அறிமுகம்",
+    homeIntroPara: "தமிழக வெற்றிக் கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும், மதுரவாயல் தொகுதி மக்களின் குறைகளை தீர்க்கவும் அர்ப்பணிக்கப்பட்ட கழகம்.",
 
     stat1Num: "50,000+",
     stat1Label: "உறுப்பினர்கள்",
@@ -42,8 +42,8 @@ export const translations = {
     // About Us Page
     aboutHeaderTitle: "எங்களை பற்றி",
     aboutHeaderSub: "",
-    aboutWhoTitle: "மக்களின் குரலாக, மக்களின் தேவைகளுக்காக செயல்படும் இயக்கம்",
-    aboutWhoPara1: "தமிழக வெற்றிக் கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும் தொடர்ந்து உழைக்கும் ஒரு மக்கள் இயக்கம். நமது கொள்கை: ஒவ்வொரு மனிதனும் கண்ணியமாக வாழ வேண்டும்.",
+    aboutWhoTitle: "மக்களின் குரலாக, மக்களின் தேவைகளுக்காக செயல்படும் கழகம்",
+    aboutWhoPara1: "தமிழக வெற்றிக் கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும் தொடர்ந்து உழைக்கும் ஒரு மக்கள் கழகம். நமது கொள்கை: ஒவ்வொரு மனிதனும் கண்ணியமாக வாழ வேண்டும்.",
     aboutWhoPara2: "",
 
     aboutPurposeTitle: "",
@@ -110,7 +110,7 @@ export const translations = {
     newComplaintBtn: "மற்றுமொரு புகார் பதிவு செய்ய",
 
     // Footer
-    footerDesc: "தமிழக வெற்றிக் கழகம் — மதுரவாயல் தொகுதி. மக்களுக்காக, மக்களால் இயங்கும் நேர்மையான மக்கள் இயக்கம்.",
+    footerDesc: "தமிழக வெற்றிக் கழகம் — மதுரவாயல் தொகுதி. மக்களுக்காக, மக்களால் இயங்கும் நேர்மையான மக்கள் கழகம்.",
     footerQuickLinks: "பக்கங்கள்",
     footerCopyright: "தமிழக வெற்றிக் கழகம் — மதுரவாயல் தொகுதி. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.",
     footerDesignedBy: "Designed and Developed by Hytide Tech"
@@ -133,11 +133,11 @@ export const translations = {
     heroTagline1: "For the people, by the people",
     heroTitlePrefix: "TAMILAGA VETTRI KAZHAGAM",
     heroTitleSub: "Maduravoyal Constituency",
-    heroSubtitle: "A dedicated people's movement acting as the voice and service organization for Maduravoyal.",
+    heroSubtitle: "A dedicated people's Kazhagam acting as the voice and service organization for Maduravoyal.",
     heroCtaComplaint: "File a Complaint",
     heroCtaAbout: "About TVK",
 
-    homeIntroTitle: "About Our Movement",
+    homeIntroTitle: "About Our Kazhagam",
     homeIntroPara: "Tamilaga Vettri Kazhagam (TVK) Maduravoyal is committed to upholding social justice, public transparency, and resolving ward-level grievances for every citizen.",
 
     stat1Num: "50,000+",
@@ -158,8 +158,8 @@ export const translations = {
     // About Us Page
     aboutHeaderTitle: "About Us",
     aboutHeaderSub: "",
-    aboutWhoTitle: "A movement working as the voice of the people and for the needs of the people",
-    aboutWhoPara1: "Tamilaga Vettri Kazhagam is a people's movement working continuously to uphold the rights of the Tamil people and ensure social justice. Our policy: Every human being should live with dignity.",
+    aboutWhoTitle: "A Kazhagam working as the voice of the people and for the needs of the people",
+    aboutWhoPara1: "Tamilaga Vettri Kazhagam is a people's Kazhagam working continuously to uphold the rights of the Tamil people and ensure social justice. Our policy: Every human being should live with dignity.",
     aboutWhoPara2: "",
 
     aboutPurposeTitle: "",
@@ -226,7 +226,7 @@ export const translations = {
     newComplaintBtn: "Submit Another Complaint",
 
     // Footer
-    footerDesc: "Tamilaga Vettri Kazhagam Maduravoyal Constituency. A transparent people's movement for social justice.",
+    footerDesc: "Tamilaga Vettri Kazhagam Maduravoyal Constituency. A transparent people's Kazhagam for social justice.",
     footerQuickLinks: "Pages",
     footerCopyright: "TVK Maduravoyal Constituency. All rights reserved.",
     footerDesignedBy: "Designed and Developed by Hytide Tech"
