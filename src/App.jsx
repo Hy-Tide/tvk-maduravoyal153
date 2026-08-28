@@ -419,6 +419,9 @@ function App() {
                 <button className="btn-hero-secondary" onClick={() => scrollToSection('about')}>
                   {t.heroCtaAbout}
                 </button>
+                <button className="btn-hero-secondary" onClick={() => scrollToSection('gallery')}>
+                  {t.heroCtaGallery}
+                </button>
               </div>
 
               {/* Stats Bar */}

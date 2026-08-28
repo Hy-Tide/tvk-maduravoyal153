@@ -20,6 +20,7 @@ export const translations = {
     heroSubtitle: "மக்களின் குரலாக, சேவை மனப்பான்மையோடு செயல்படும் மக்கள் கழகம்.",
     heroCtaComplaint: "புகார் பதிவு செய்க",
     heroCtaAbout: "எங்களைப் பற்றி",
+    heroCtaGallery: "புகைப்படங்கள் காண்க",
 
     homeIntroTitle: "எங்கள் கழக அறிமுகம்",
     homeIntroPara: "தமிழக வெற்றிக் கழகம் — தமிழ் மக்களின் உரிமைகளை நிலைநாட்டவும், சமூக நீதியை உறுதிப்படுத்தவும், மதுரவாயல் தொகுதி மக்களின் குறைகளை தீர்க்கவும் அர்ப்பணிக்கப்பட்ட கழகம்.",
@@ -136,6 +137,7 @@ export const translations = {
     heroSubtitle: "A dedicated people's Kazhagam acting as the voice and service organization for Maduravoyal.",
     heroCtaComplaint: "File a Complaint",
     heroCtaAbout: "About TVK",
+    heroCtaGallery: "View Gallery",
 
     homeIntroTitle: "About Our Kazhagam",
     homeIntroPara: "Tamilaga Vettri Kazhagam (TVK) Maduravoyal is committed to upholding social justice, public transparency, and resolving ward-level grievances for every citizen.",
