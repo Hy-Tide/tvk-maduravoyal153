@@ -55,6 +55,34 @@ export const translations = {
     purpose3Title: "நம் அணுகுமுறை",
     purpose3Desc: "வெளிப்படைத்தன்மை, நேர்மை, மக்களிடையே நேரடி தொடர்பு மூலம் செயல்படுவது.",
 
+    // Schemes Page
+    navSchemes: "நலத்திட்டங்கள்",
+    schemesHeaderTitle: "அரசு நலத்திட்டங்கள்",
+    schemesHeaderSub: "மக்களுக்கான முக்கிய திட்டங்கள்",
+    schemesApplyBtn: "விண்ணப்பிக்க",
+    schemesList: [
+      {
+        name: "மகளிர் உரிமைத் தொகை",
+        desc: "தகுதியான பெண்களுக்கு மாதம் ரூ.1000 உரிமைத் தொகை வழங்கும் திட்டம்.",
+        link: "https://kmut.tn.gov.in/"
+      },
+      {
+        name: "முதலமைச்சரின் விரிவான மருத்துவக் காப்பீடு",
+        desc: "ஏழை எளிய மக்களுக்கு ஆண்டிற்கு ரூ.5 லட்சம் வரை இலவச மருத்துவ சிகிச்சை.",
+        link: "https://www.cmchistn.com/"
+      },
+      {
+        name: "புதுமைப் பெண் திட்டம்",
+        desc: "அரசு பள்ளிகளில் பயின்ற மாணவிகளுக்கு உயர்கல்வி படிக்க மாதம் ரூ.1000.",
+        link: "https://www.pudhumaipenn.tn.gov.in/"
+      },
+      {
+        name: "முதியோர் ஓய்வூதியத் திட்டம் (OAP)",
+        desc: "ஆதரவற்ற முதியோர்களுக்கு மாதம் ரூ.1200 ஓய்வூதியம் வழங்கும் திட்டம்.",
+        link: "https://tnedistrict.tn.gov.in/"
+      }
+    ],
+
     // Gallery Page
     galleryHeaderTitle: "புகைப்பட தொகுப்பு",
     galleryHeaderSub: "எங்கள் மக்கள் பணி மற்றும் நிகழ்வுகள்",
@@ -62,17 +90,17 @@ export const translations = {
     // Contact Page
     contactHeaderTitle: "தொடர்பு கொள்ள",
     contactHeaderSub: "எங்கள் அலுவலக முகவரி மற்றும் தொலைபேசி விவரங்கள்",
-    contactOrgName: "தமிழக வெற்றிக் கழகம் — மதுரவாயல் தொகுதி",
-    contactPhoneTitle: "தொலைபேசி எண்கள்",
-    contactPhoneVal: "+91 44 2345 6789 / +91 98765 43210",
-    contactTollFree: "இலவச எண்: 1800-TVK-MAD (1800 885 623)",
-    contactEmailTitle: "மின்னஞ்சல் முகவரி",
-    contactEmailVal: "maduravoyal@tvk.org.in",
-    contactAddressTitle: "தலைமை அலுவலக முகவரி",
-    contactAddressVal: "எண் 42, பிபிசி மெயின் ரோடு, மதுரவாயல், சென்னை - 600 095, தமிழ்நாடு.",
+    contactOrgName: "மு. ஹரிஹரன் — 153-வது வட்டக் கழகச் செயலாளர்",
+    contactPhoneTitle: "தொலைபேசி",
+    contactPhoneVal: "+91 90807 08180",
+    contactTollFree: "",
+    contactEmailTitle: "முகவரி",
+    contactEmailVal: "#05, பாளையக்கார் தெரு, போரூர், சென்னை – 600116.",
+    contactAddressTitle: "முழு முகவரி",
+    contactAddressVal: "#05, பாளையக்கார் தெரு, போரூர், சென்னை – 600116.",
     contactHoursTitle: "வேலை நேரங்கள்",
     contactHoursVal: "திங்கள் - ஞாயிறு: காலை 9:00 - மாலை 6:00 வரை",
-    contactMapTitle: "அலுவலக இருப்பிடம் (Google Maps)",
+    contactMapTitle: "இருப்பிடம் (Google Maps)",
     contactMapBtn: "Google Maps இல் வழிகாட்டல் பெற",
     contactSocialTitle: "சமூக வலைதளங்களில் பின்தொடருங்கள்",
 
@@ -89,8 +117,25 @@ export const translations = {
     formEmailPlaceholder: "example@domain.com",
     formAddress: "முகவரி / வார்டு விவரம் *",
     formAddressPlaceholder: "கதவு எண், தெரு பெயர், வார்டு எண்",
-    formSubject: "புகாரின் தலைப்பு *",
-    formSubjectPlaceholder: "எ.கா: தெருவிளக்கு பழுது / குடிநீர் விநியோகப் பிரச்சினை",
+    formOtherSubject: "தயவுசெய்து குறிப்பிடவும் *",
+    formOtherSubjectPlaceholder: "உங்கள் குறை வகையை குறிப்பிடவும்",
+    formSubject: "குறை வகை *",
+    formSubjectPlaceholder: "குறை வகையை தேர்ந்தெடுக்கவும்",
+    complaintCategories: [
+      "குடிநீர்",
+      "சாலை",
+      "மின்சாரம்",
+      "கழிவுநீர்",
+      "ரேஷன் கார்டு",
+      "முதியோர் உதவி",
+      "மகளிர் உரிமைத்தொகை",
+      "வீடு / பட்டா",
+      "அரசு நலத்திட்டங்கள்",
+      "வேலைவாய்ப்பு",
+      "கல்வி",
+      "மருத்துவம்",
+      "மற்றவை"
+    ],
     formVoterId: "வாக்காளர் அடையாள அட்டை எண் *",
     formVoterIdPlaceholder: "எ.கா: ABC1234567",
     formImage: "புகைப்படம் இணைக்க (விருப்பமிருந்தால்)",
@@ -172,6 +217,34 @@ export const translations = {
     purpose3Title: "Our Approach",
     purpose3Desc: "Acting through transparency, honesty, and direct communication with the people.",
 
+    // Schemes Page
+    navSchemes: "Welfare Schemes",
+    schemesHeaderTitle: "Government Welfare Schemes",
+    schemesHeaderSub: "Important Schemes for the People",
+    schemesApplyBtn: "Apply Now",
+    schemesList: [
+      {
+        name: "Magalir Urimai Thogai",
+        desc: "Financial assistance of ₹1000 per month for eligible women heads of families.",
+        link: "https://kmut.tn.gov.in/"
+      },
+      {
+        name: "CM's Comprehensive Health Insurance",
+        desc: "Free medical treatment up to ₹5 Lakhs per family per year.",
+        link: "https://www.cmchistn.com/"
+      },
+      {
+        name: "Pudhumai Penn Scheme",
+        desc: "₹1000 monthly assistance for girl students pursuing higher education from govt schools.",
+        link: "https://www.pudhumaipenn.tn.gov.in/"
+      },
+      {
+        name: "Old Age Pension Scheme (OAP)",
+        desc: "Monthly pension of ₹1200 for destitute senior citizens.",
+        link: "https://tnedistrict.tn.gov.in/"
+      }
+    ],
+
     // Gallery Page
     galleryHeaderTitle: "Photo Gallery",
     galleryHeaderSub: "Our Public Services and Events",
@@ -179,17 +252,17 @@ export const translations = {
     // Contact Page
     contactHeaderTitle: "Contact Us",
     contactHeaderSub: "Official Address and Direct Communication Channels",
-    contactOrgName: "TVK Maduravoyal Constituency Headquarters",
-    contactPhoneTitle: "Phone Numbers",
-    contactPhoneVal: "+91 44 2345 6789 / +91 98765 43210",
-    contactTollFree: "Toll-Free Helpline: 1800-TVK-MAD (1800 885 623)",
-    contactEmailTitle: "Email Address",
-    contactEmailVal: "maduravoyal@tvk.org.in",
-    contactAddressTitle: "Headquarters Address",
-    contactAddressVal: "No. 42, PHC Main Road, Maduravoyal, Chennai - 600 095, Tamil Nadu, India.",
+    contactOrgName: "M. Hariharan — Ward Secretary, 153rd Ward",
+    contactPhoneTitle: "Phone",
+    contactPhoneVal: "+91 90807 08180",
+    contactTollFree: "",
+    contactEmailTitle: "Address",
+    contactEmailVal: "#05, Palayakkar Street, Porur, Chennai – 600116.",
+    contactAddressTitle: "Full Address",
+    contactAddressVal: "#05, Palayakkar Street, Porur, Chennai – 600116.",
     contactHoursTitle: "Office Hours",
     contactHoursVal: "Monday - Sunday: 9:00 AM - 6:00 PM",
-    contactMapTitle: "Office Location (Google Maps)",
+    contactMapTitle: "Location (Google Maps)",
     contactMapBtn: "Get Directions on Google Maps",
     contactSocialTitle: "Follow Us On Social Media",
 
@@ -206,8 +279,25 @@ export const translations = {
     formEmailPlaceholder: "example@domain.com",
     formAddress: "Address / Ward Details *",
     formAddressPlaceholder: "Door No, Street Name, Area, Ward No",
-    formSubject: "Complaint Subject *",
-    formSubjectPlaceholder: "e.g. Broken streetlight on 2nd Main Rd",
+    formOtherSubject: "Please Specify *",
+    formOtherSubjectPlaceholder: "Please specify your category",
+    formSubject: "Complaint Category *",
+    formSubjectPlaceholder: "Select Complaint Category",
+    complaintCategories: [
+      "Drinking Water",
+      "Road",
+      "Electricity",
+      "Sewage / Drainage",
+      "Ration Card",
+      "Old Age Assistance",
+      "Women's Rights Assistance",
+      "House / Patta",
+      "Government Welfare Schemes",
+      "Employment",
+      "Education",
+      "Medical",
+      "Others"
+    ],
     formVoterId: "Voter ID Number *",
     formVoterIdPlaceholder: "e.g. ABC1234567",
     formImage: "Upload Image (Optional)",
