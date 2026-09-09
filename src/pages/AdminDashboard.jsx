@@ -3,48 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import tvkLogo from '../assets/TVK-LOGO.png';
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
-const STORAGE_COMPLAINTS = 'tvk_complaints';
-const STORAGE_CAMPS = 'tvk_camps';
-
-const DEMO_COMPLAINTS = [
-  { id: 'TVK-MAD-1234', name: 'Rajan Kumar', date: '01 Sep 2026', category: 'Road / Infrastructure', address: 'Ward 14, Maduravoyal', status: 'inprogress', description: 'Pothole on the main road near bus stop.' },
-  { id: 'TVK-MAD-5678', name: 'Meena Selvam', date: '28 Aug 2026', category: 'Drinking Water', address: 'Ward 7, Maduravoyal', status: 'resolved', description: 'No water supply for 3 days.' },
-  { id: 'TVK-MAD-9012', name: 'Suresh Babu', date: '30 Aug 2026', category: 'Street Lighting', address: 'Ward 3, Maduravoyal', status: 'pending', description: 'Street lights not working for 2 weeks.' },
-  { id: 'TVK-MAD-3456', name: 'Kavitha Devi', date: '02 Sep 2026', category: 'Sanitation', address: 'Ward 9, Maduravoyal', status: 'pending', description: 'Garbage not collected for 5 days.' },
-];
-
-const STATUS_OPTS = [
-  { value: 'pending', label: 'Pending Review', color: '#F59E0B' },
-  { value: 'inprogress', label: 'In Progress', color: '#3B82F6' },
-  { value: 'resolved', label: 'Resolved', color: '#10B981' },
-  { value: 'rejected', label: 'Rejected', color: '#EF4444' },
-];
-
-function getComplaints() {
-  try {
-    const stored = localStorage.getItem(STORAGE_COMPLAINTS);
-    if (stored) return JSON.parse(stored);
-  } catch (_) { /* ignore */ }
-  // seed with demos
-  localStorage.setItem(STORAGE_COMPLAINTS, JSON.stringify(DEMO_COMPLAINTS));
-  return DEMO_COMPLAINTS;
-}
-
-function saveComplaints(data) {
-  localStorage.setItem(STORAGE_COMPLAINTS, JSON.stringify(data));
-}
-
-function getCamps() {
-  try {
-    const stored = localStorage.getItem(STORAGE_CAMPS);
-    if (stored) return JSON.parse(stored);
-  } catch (_) { /* ignore */ }
-  return [];
-}
-
-function saveCamps(data) {
-  localStorage.setItem(STORAGE_CAMPS, JSON.stringify(data));
-}
+// Dummy functions removed.
 
 // ── Icons ──────────────────────────────────────────────────────────────────────
 const IconLogout = () => (
@@ -94,30 +53,54 @@ function StatusPill({ status }) {
 
 // ── Complaints Tab ─────────────────────────────────────────────────────────────
 function ComplaintsTab() {
-  const [complaints, setComplaints] = useState(getComplaints);
+  const [complaints, setComplaints] = useState([]);
   const [search, setSearch] = useState('');
   const [editId, setEditId] = useState(null);
   const [editStatus, setEditStatus] = useState('');
   const [saved, setSaved] = useState(null);
 
+  useEffect(() => {
+    const token = sessionStorage.getItem('tvk_admin_auth');
+    fetch('http://localhost:5000/api/complaints', {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setComplaints(data.data);
+      });
+  }, []);
+
   const filtered = complaints.filter(c =>
-    c.id.toLowerCase().includes(search.toLowerCase()) ||
-    c.name.toLowerCase().includes(search.toLowerCase()) ||
-    c.category.toLowerCase().includes(search.toLowerCase())
+    (c.ticketId && c.ticketId.toLowerCase().includes(search.toLowerCase())) ||
+    (c.name && c.name.toLowerCase().includes(search.toLowerCase())) ||
+    (c.subject && c.subject.join(' ').toLowerCase().includes(search.toLowerCase()))
   );
 
   const openEdit = (c) => {
-    setEditId(c.id);
+    setEditId(c._id);
     setEditStatus(c.status);
   };
 
   const handleUpdateStatus = () => {
-    const updated = complaints.map(c => c.id === editId ? { ...c, status: editStatus } : c);
-    setComplaints(updated);
-    saveComplaints(updated);
-    setSaved(editId);
-    setEditId(null);
-    setTimeout(() => setSaved(null), 3000);
+    const token = sessionStorage.getItem('tvk_admin_auth');
+    fetch(`http://localhost:5000/api/complaints/${editId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify({ status: editStatus })
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const updated = complaints.map(c => c._id === editId ? { ...c, status: editStatus } : c);
+          setComplaints(updated);
+          setSaved(data.data.ticketId);
+          setEditId(null);
+          setTimeout(() => setSaved(null), 3000);
+        }
+      });
   };
 
   return (
@@ -159,16 +142,16 @@ function ComplaintsTab() {
           <p style={{ color: 'rgba(255,255,255,0.3)', textAlign: 'center', padding: '2rem' }}>No complaints found.</p>
         )}
         {filtered.map(c => (
-          <div key={c.id} style={{
+          <div key={c._id} style={{
             background: 'rgba(255,255,255,0.04)',
             border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: 14, padding: '1rem 1.25rem',
           }}>
-            {editId === c.id ? (
+            {editId === c._id ? (
               /* Inline edit */
               <div>
-                <p style={{ color: 'white', fontWeight: 700, marginBottom: 6 }}>{c.id} — {c.name}</p>
-                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', marginBottom: 12 }}>{c.description}</p>
+                <p style={{ color: 'white', fontWeight: 700, marginBottom: 6 }}>{c.ticketId} — {c.name}</p>
+                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', marginBottom: 12 }}>{c.details}</p>
                 <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: 6 }}>
                   Update Status
                 </label>
@@ -217,11 +200,11 @@ function ComplaintsTab() {
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
-                    <span style={{ color: 'white', fontWeight: 700, fontSize: '0.9rem' }}>{c.id}</span>
+                    <span style={{ color: 'white', fontWeight: 700, fontSize: '0.9rem' }}>{c.ticketId}</span>
                     <StatusPill status={c.status} />
                   </div>
                   <p style={{ margin: 0, color: 'rgba(255,255,255,0.5)', fontSize: '0.82rem' }}>
-                    {c.name} · {c.category} · {c.date}
+                    {c.name} · {c.subject?.join(', ')} · {new Date(c.createdAt).toLocaleDateString()}
                   </p>
                 </div>
                 <button
@@ -245,10 +228,18 @@ function ComplaintsTab() {
 
 // ── Camp Announcements Tab ─────────────────────────────────────────────────────
 function CampsTab() {
-  const [camps, setCamps] = useState(getCamps);
+  const [camps, setCamps] = useState([]);
   const [form, setForm] = useState({ title: '', date: '', time: '', place: '', description: '' });
   const [errors, setErrors] = useState({});
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/camps')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) setCamps(data.data.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt)));
+      });
+  }, []);
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -269,23 +260,38 @@ function CampsTab() {
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
 
-    const newCamp = {
-      id: `CAMP-${Date.now()}`,
-      ...form,
-      postedAt: new Date().toLocaleString(),
-    };
-    const updated = [newCamp, ...camps];
-    setCamps(updated);
-    saveCamps(updated);
-    setForm({ title: '', date: '', time: '', place: '', description: '' });
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    const token = sessionStorage.getItem('tvk_admin_auth');
+    fetch('http://localhost:5000/api/camps', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(form)
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setCamps([data.data, ...camps]);
+          setForm({ title: '', date: '', time: '', place: '', description: '' });
+          setSaved(true);
+          setTimeout(() => setSaved(false), 3000);
+        }
+      });
   };
 
   const handleDelete = id => {
-    const updated = camps.filter(c => c.id !== id);
-    setCamps(updated);
-    saveCamps(updated);
+    const token = sessionStorage.getItem('tvk_admin_auth');
+    fetch(`http://localhost:5000/api/camps/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          setCamps(camps.filter(c => c._id !== id));
+        }
+      });
   };
 
   const inputStyle = (hasErr) => ({
@@ -382,7 +388,7 @@ function CampsTab() {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {camps.map(camp => (
-          <div key={camp.id} style={{
+          <div key={camp._id} style={{
             background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: 14, padding: '1rem 1.25rem',
             display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12,
@@ -400,11 +406,11 @@ function CampsTab() {
                 </p>
               )}
               <p style={{ color: 'rgba(255,255,255,0.2)', fontSize: '0.72rem', margin: '6px 0 0' }}>
-                Posted: {camp.postedAt}
+                Posted: {new Date(camp.postedAt).toLocaleString()}
               </p>
             </div>
             <button
-              onClick={() => handleDelete(camp.id)}
+              onClick={() => handleDelete(camp._id)}
               title="Delete announcement"
               style={{
                 background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.3)',
@@ -425,11 +431,31 @@ function CampsTab() {
 function AdminDashboard() {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('complaints');
+  const [stats, setStats] = useState({ total: 0, pending: 0, inprogress: 0, resolved: 0, camps: 0 });
 
   // Guard — redirect if not logged in
   useEffect(() => {
     const auth = sessionStorage.getItem('tvk_admin_auth');
-    if (!auth) navigate('/admin');
+    if (!auth) {
+      navigate('/admin');
+      return;
+    }
+
+    // Fetch stats
+    Promise.all([
+      fetch('http://localhost:5000/api/complaints', { headers: { 'Authorization': `Bearer ${auth}` } }).then(res => res.json()),
+      fetch('http://localhost:5000/api/camps').then(res => res.json())
+    ]).then(([complaintsRes, campsRes]) => {
+       const clist = complaintsRes.success ? complaintsRes.data : [];
+       const campsList = campsRes.success ? campsRes.data : [];
+       setStats({
+          total: clist.length,
+          pending: clist.filter(c => c.status === 'pending').length,
+          inprogress: clist.filter(c => c.status === 'inprogress').length,
+          resolved: clist.filter(c => c.status === 'resolved').length,
+          camps: campsList.length,
+       });
+    }).catch(err => console.error(err));
   }, [navigate]);
 
   const handleLogout = () => {
@@ -441,17 +467,6 @@ function AdminDashboard() {
     { id: 'complaints', label: 'Complaint Manager', icon: <IconComplaint /> },
     { id: 'camps', label: 'Camp Announcements', icon: <IconCamp /> },
   ];
-
-  const stats = (() => {
-    const list = getComplaints();
-    return {
-      total: list.length,
-      pending: list.filter(c => c.status === 'pending').length,
-      inprogress: list.filter(c => c.status === 'inprogress').length,
-      resolved: list.filter(c => c.status === 'resolved').length,
-      camps: getCamps().length,
-    };
-  })();
 
   return (
     <div style={{

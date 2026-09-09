@@ -18,16 +18,26 @@ function AdminLogin() {
     setLoading(true);
     setError('');
 
-    // Placeholder authentication — replace with real API call
-    setTimeout(() => {
-      if (formData.username === 'admin' && formData.password === 'tvk2024') {
-        sessionStorage.setItem('tvk_admin_auth', 'true');
-        navigate('/admin-dashboard');
-      } else {
-        setError('Invalid username or password. Please try again.');
-      }
-      setLoading(false);
-    }, 800);
+    // Real API call
+    fetch('http://localhost:5000/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: formData.username, password: formData.password })
+    })
+      .then(res => res.json())
+      .then(data => {
+        setLoading(false);
+        if (data.success) {
+          sessionStorage.setItem('tvk_admin_auth', data.token);
+          navigate('/admin-dashboard');
+        } else {
+          setError(data.error || 'Invalid username or password. Please try again.');
+        }
+      })
+      .catch(() => {
+        setLoading(false);
+        setError('Network error. Please try again later.');
+      });
   };
 
   return (

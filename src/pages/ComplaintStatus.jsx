@@ -115,40 +115,23 @@ const STATUS_CONFIG = {
 };
 
 // ── Placeholder / Demo result ──────────────────────────────────────────
-const DEMO_COMPLAINTS = {
-  'TVK-MAD-1234': {
-    id: 'TVK-MAD-1234',
-    name: 'Rajan Kumar',
-    date: '01 Sep 2026',
-    category: 'Road / Infrastructure',
-    address: 'Ward 14, Maduravoyal, Chennai - 600095',
-    status: 'inprogress',
-    description: 'Pothole on the main road near bus stop causing accidents.',
-    timeline: [
-      { date: '01 Sep 2026', time: '10:30 AM', event: 'Complaint submitted', done: true },
-      { date: '02 Sep 2026', time: '09:15 AM', event: 'Received & assigned to ward officer', done: true },
-      { date: '03 Sep 2026', time: '02:00 PM', event: 'Field inspection completed', done: true },
-      { date: 'Pending', time: '', event: 'Repair work scheduled', done: false },
-      { date: 'Pending', time: '', event: 'Issue resolved & closed', done: false },
-    ],
-  },
-  'TVK-MAD-5678': {
-    id: 'TVK-MAD-5678',
-    name: 'Meena Selvam',
-    date: '28 Aug 2026',
-    category: 'Drinking Water',
-    address: 'Ward 7, Maduravoyal, Chennai - 600095',
-    status: 'resolved',
-    description: 'No water supply for 3 days in the locality.',
-    timeline: [
-      { date: '28 Aug 2026', time: '08:00 AM', event: 'Complaint submitted', done: true },
-      { date: '28 Aug 2026', time: '11:00 AM', event: 'Received & assigned to ward officer', done: true },
-      { date: '29 Aug 2026', time: '10:00 AM', event: 'Field inspection completed', done: true },
-      { date: '30 Aug 2026', time: '04:00 PM', event: 'Repair work completed', done: true },
-      { date: '31 Aug 2026', time: '09:00 AM', event: 'Issue resolved & closed', done: true },
-    ],
-  },
-};
+function generateTimeline(complaint) {
+  const t = [];
+  const start = new Date(complaint.createdAt);
+  t.push({ date: start.toLocaleDateString(), time: start.toLocaleTimeString(), event: 'Complaint submitted', done: true });
+  
+  const s = complaint.status;
+  if (s === 'rejected') {
+     t.push({ date: 'Updated', time: '', event: 'Complaint rejected', done: true });
+     return t;
+  }
+  
+  t.push({ date: s !== 'pending' ? 'Updated' : 'Pending', time: '', event: 'Received & assigned', done: s !== 'pending' });
+  t.push({ date: s === 'resolved' ? 'Updated' : 'Pending', time: '', event: 'Action in progress', done: s === 'resolved' || s === 'inprogress' });
+  t.push({ date: s === 'resolved' ? 'Updated' : 'Pending', time: '', event: 'Issue resolved & closed', done: s === 'resolved' });
+
+  return t;
+}
 
 // ── Sub-components ─────────────────────────────────────────────────────
 function StatusBadge({ status }) {
@@ -321,9 +304,30 @@ function ComplaintStatus() {
     setSearched(true);
     setError('');
 
-    // Demo lookup — replace with real API call
-    const found = DEMO_COMPLAINTS[trimmed] || null;
-    setResult(found);
+    // Fetch from backend
+    fetch(`http://localhost:5000/api/complaints/ticket/${trimmed}`)
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          const complaint = data.data;
+          setResult({
+            id: complaint.ticketId,
+            name: complaint.name,
+            date: new Date(complaint.createdAt).toLocaleDateString(),
+            category: complaint.subject.join(', '),
+            address: complaint.address,
+            status: complaint.status,
+            description: complaint.details,
+            timeline: generateTimeline(complaint)
+          });
+        } else {
+          setResult(null);
+        }
+      })
+      .catch(() => {
+        setError('Failed to fetch complaint status.');
+        setResult(null);
+      });
   };
 
   const handleReset = () => {
@@ -472,25 +476,7 @@ function ComplaintStatus() {
 
           {/* Demo hint chips */}
           <div style={{ marginTop: '1.5rem', display: 'flex', gap: 8, justifyContent: 'center', flexWrap: 'wrap', alignItems: 'center' }}>
-            <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.82rem' }}>Try a sample ID:</span>
-            {Object.keys(DEMO_COMPLAINTS).map(id => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setInputId(id)}
-                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(217,27,36,0.18)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(217,27,36,0.1)'; }}
-                style={{
-                  background: 'rgba(217,27,36,0.1)', border: '1px solid rgba(217,27,36,0.3)',
-                  color: '#ff7a84', borderRadius: 999,
-                  padding: '5px 13px', fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer',
-                  fontFamily: FONT_STACK,
-                  transition: 'background 0.15s',
-                }}
-              >
-                {id}
-              </button>
-            ))}
+            <span style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.82rem' }}>Check your email or SMS for your Ticket ID.</span>
           </div>
         </div>
       </div>

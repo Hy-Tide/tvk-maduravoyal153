@@ -32,6 +32,7 @@ function Complaint() {
   });
   const [formError, setFormError] = useState('');
   const [submittedTicket, setSubmittedTicket] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toggleCategory = (category) => {
     setFormData(prev => {
@@ -83,26 +84,43 @@ function Complaint() {
       return;
     }
 
-    const ticketId = `TVK-MAD-${Math.floor(1000 + Math.random() * 9000)}`;
+    setIsSubmitting(true);
 
-    setSubmittedTicket({
-      id: ticketId,
-      name: formData.name,
-      email: formData.email,
-      date: new Date().toLocaleDateString()
-    });
-
-    setFormData({
-      name: '',
-      phone: '',
-      email: '',
-      address: '',
-      subject: [],
-      otherSubject: '',
-      voterId: '',
-      image: null,
-      details: ''
-    });
+    // Call the backend API
+    fetch('http://localhost:5000/api/complaints', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+      .then(res => res.json())
+      .then(data => {
+        setIsSubmitting(false);
+        if (data.success) {
+          setSubmittedTicket({
+            id: data.data.ticketId,
+            name: data.data.name,
+            email: data.data.email,
+            date: new Date(data.data.createdAt).toLocaleDateString()
+          });
+          setFormData({
+            name: '',
+            phone: '',
+            email: '',
+            address: '',
+            subject: [],
+            otherSubject: '',
+            voterId: '',
+            image: null,
+            details: ''
+          });
+        } else {
+          setFormError(data.error || 'Failed to submit complaint. Please try again.');
+        }
+      })
+      .catch(err => {
+        setIsSubmitting(false);
+        setFormError('Network error. Please try again later.');
+      });
   };
 
   return (
@@ -302,8 +320,8 @@ function Complaint() {
 
                 <div className="form-footer">
                   <span className="form-note">{t.formMandatory}</span>
-                  <button type="submit" className="btn-submit-glow">
-                    {t.formSubmitBtn} <SendIcon />
+                  <button type="submit" className="btn-submit-glow" disabled={isSubmitting}>
+                    {isSubmitting ? 'Submitting...' : t.formSubmitBtn} {!isSubmitting && <SendIcon />}
                   </button>
                 </div>
 
