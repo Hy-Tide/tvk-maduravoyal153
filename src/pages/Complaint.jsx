@@ -118,7 +118,7 @@ function Complaint() {
           setFormError(data.error || 'Failed to submit complaint. Please try again.');
         }
       })
-      .catch(err => {
+      .catch(() => {
         setIsSubmitting(false);
         setFormError('Network error. Please try again later.');
       });
