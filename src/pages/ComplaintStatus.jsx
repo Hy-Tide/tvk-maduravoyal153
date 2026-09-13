@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { API_BASE_URL } from '../config';
 
 // ── Icons ──────────────────────────────────────────────────────────────
 const SearchIcon = () => (
@@ -83,7 +84,7 @@ const STATUS_CONFIG = {
     bg: 'rgba(245,158,11,0.12)',
     border: 'rgba(245,158,11,0.35)',
     icon: <ClockIcon />,
-    step: 1,
+    step: 2,
   },
   inprogress: {
     label: 'In progress',
@@ -92,7 +93,7 @@ const STATUS_CONFIG = {
     bg: 'rgba(59,130,246,0.12)',
     border: 'rgba(59,130,246,0.35)',
     icon: <InProgressIcon />,
-    step: 2,
+    step: 3,
   },
   resolved: {
     label: 'Resolved',
@@ -101,7 +102,7 @@ const STATUS_CONFIG = {
     bg: 'rgba(16,185,129,0.12)',
     border: 'rgba(16,185,129,0.35)',
     icon: <CheckCircleIcon />,
-    step: 3,
+    step: 4,
   },
   rejected: {
     label: 'Rejected',
@@ -119,15 +120,16 @@ function generateTimeline(complaint) {
   const t = [];
   const start = new Date(complaint.createdAt);
   t.push({ date: start.toLocaleDateString(), time: start.toLocaleTimeString(), event: 'Complaint submitted', done: true });
-  
-  const s = complaint.status;
+
+  const s = complaint.status ? complaint.status.toLowerCase().replace(/\s+/g, '') : 'pending';
   if (s === 'rejected') {
-     t.push({ date: 'Updated', time: '', event: 'Complaint rejected', done: true });
-     return t;
+    t.push({ date: 'Updated', time: '', event: 'Complaint rejected', done: true });
+    return t;
   }
-  
+
   t.push({ date: s !== 'pending' ? 'Updated' : 'Pending', time: '', event: 'Received & assigned', done: s !== 'pending' });
-  t.push({ date: s === 'resolved' ? 'Updated' : 'Pending', time: '', event: 'Action in progress', done: s === 'resolved' || s === 'inprogress' });
+  const inProgressDone = s === 'resolved' || s === 'inprogress';
+  t.push({ date: inProgressDone ? 'Updated' : 'Pending', time: '', event: 'Action in progress', done: inProgressDone });
   t.push({ date: s === 'resolved' ? 'Updated' : 'Pending', time: '', event: 'Issue resolved & closed', done: s === 'resolved' });
 
   return t;
@@ -305,7 +307,7 @@ function ComplaintStatus() {
     setError('');
 
     // Fetch from backend
-    fetch(`http://localhost:5000/api/complaints/ticket/${trimmed}`)
+    fetch(`${API_BASE_URL}/api/complaints/ticket/${trimmed}`)
       .then(res => res.json())
       .then(data => {
         if (data.success) {
@@ -316,7 +318,7 @@ function ComplaintStatus() {
             date: new Date(complaint.createdAt).toLocaleDateString(),
             category: complaint.subject.join(', '),
             address: complaint.address,
-            status: complaint.status,
+            status: complaint.status ? complaint.status.toLowerCase().replace(/\s+/g, '') : 'pending',
             description: complaint.details,
             timeline: generateTimeline(complaint)
           });

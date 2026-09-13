@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { useOutletContext } from 'react-router-dom';
+import { API_BASE_URL } from '../config';
 
 const CheckCircleIcon = () => (
   <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -87,7 +88,7 @@ function Complaint() {
     setIsSubmitting(true);
 
     // Call the backend API
-    fetch('http://localhost:5000/api/complaints', {
+    fetch(`${API_BASE_URL}/api/complaints`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)

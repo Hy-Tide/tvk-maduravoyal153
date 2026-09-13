@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import tvkLogo from '../assets/TVK-LOGO.png';
+import { API_BASE_URL } from '../config';
 
 function AdminLogin() {
   const navigate = useNavigate();
@@ -19,10 +20,10 @@ function AdminLogin() {
     setError('');
 
     // Real API call
-    fetch('http://localhost:5000/api/auth/login', {
+    fetch(`${API_BASE_URL}/api/admin/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: formData.username, password: formData.password })
+      body: JSON.stringify({ username: formData.username, password: formData.password })
     })
       .then(res => res.json())
       .then(data => {

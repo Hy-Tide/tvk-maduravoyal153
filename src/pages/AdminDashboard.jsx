@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import tvkLogo from '../assets/TVK-LOGO.png';
+import { API_BASE_URL } from '../config';
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 // Dummy functions removed.
@@ -32,6 +33,13 @@ const IconSearch = () => (
   </svg>
 );
 
+const STATUS_OPTS = [
+  { value: 'Pending', label: 'Pending', color: '#F59E0B' },
+  { value: 'In Progress', label: 'In Progress', color: '#3B82F6' },
+  { value: 'Resolved', label: 'Resolved', color: '#10B981' },
+  { value: 'Rejected', label: 'Rejected', color: '#EF4444' }
+];
+
 // ── Status badge ───────────────────────────────────────────────────────────────
 function StatusPill({ status }) {
   const cfg = STATUS_OPTS.find(s => s.value === status) || STATUS_OPTS[0];
@@ -61,7 +69,7 @@ function ComplaintsTab() {
 
   useEffect(() => {
     const token = sessionStorage.getItem('tvk_admin_auth');
-    fetch('http://localhost:5000/api/complaints', {
+    fetch(`${API_BASE_URL}/api/admin/complaints`, {
       headers: { 'Authorization': `Bearer ${token}` }
     })
       .then(res => res.json())
@@ -83,8 +91,8 @@ function ComplaintsTab() {
 
   const handleUpdateStatus = () => {
     const token = sessionStorage.getItem('tvk_admin_auth');
-    fetch(`http://localhost:5000/api/complaints/${editId}`, {
-      method: 'PUT',
+    fetch(`${API_BASE_URL}/api/admin/complaints/${editId}/status`, {
+      method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
@@ -226,15 +234,61 @@ function ComplaintsTab() {
   );
 }
 
+// ── Helpers ────────────────────────────────────────────────────────────────────
+function TimeSelect({ value, onChange, name, hasError }) {
+  const [h, m, ampm] = value ? value.split(/[: ]/) : ['10', '00', 'AM'];
+  
+  const update = (newH, newM, newA) => {
+    onChange({ target: { name, value: `${newH}:${newM} ${newA}` } });
+  };
+
+  const selectStyle = {
+    background: 'rgba(255,255,255,0.06)',
+    border: `1px solid ${hasError ? '#EF4444' : 'rgba(255,255,255,0.1)'}`,
+    color: 'white',
+    padding: '0.5rem',
+    borderRadius: 6,
+    outline: 'none',
+    fontFamily: 'inherit',
+    fontSize: '0.9rem'
+  };
+
+  const optionStyle = { background: '#1e1e2d', color: 'white' };
+
+  return (
+    <div style={{ display: 'flex', gap: 6 }}>
+      <select value={h} onChange={e => update(e.target.value, m, ampm)} style={selectStyle}>
+        {[...Array(12)].map((_, i) => {
+          const val = String(i + 1).padStart(2, '0');
+          return <option key={val} value={val} style={optionStyle}>{val}</option>;
+        })}
+      </select>
+      <span style={{ color: 'white', alignSelf: 'center', fontWeight: 600 }}>:</span>
+      <select value={m} onChange={e => update(h, e.target.value, ampm)} style={selectStyle}>
+        {['00', '15', '30', '45'].map(val => (
+          <option key={val} value={val} style={optionStyle}>{val}</option>
+        ))}
+      </select>
+      <select value={ampm} onChange={e => update(h, m, e.target.value)} style={selectStyle}>
+        <option value="AM" style={optionStyle}>AM</option>
+        <option value="PM" style={optionStyle}>PM</option>
+      </select>
+    </div>
+  );
+}
+
 // ── Camp Announcements Tab ─────────────────────────────────────────────────────
 function CampsTab() {
   const [camps, setCamps] = useState([]);
-  const [form, setForm] = useState({ title: '', date: '', time: '', place: '', description: '' });
+  const [form, setForm] = useState({ title: '', date: '', startTime: '10:00 AM', endTime: '01:00 PM', place: '', description: '' });
   const [errors, setErrors] = useState({});
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/camps')
+    const token = sessionStorage.getItem('tvk_admin_auth');
+    fetch(`${API_BASE_URL}/api/admin/camps`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    })
       .then(res => res.json())
       .then(data => {
         if (data.success) setCamps(data.data.sort((a, b) => new Date(b.postedAt) - new Date(a.postedAt)));
@@ -250,7 +304,8 @@ function CampsTab() {
     const e = {};
     if (!form.title.trim()) e.title = 'Required';
     if (!form.date) e.date = 'Required';
-    if (!form.time) e.time = 'Required';
+    if (!form.startTime) e.startTime = 'Required';
+    if (!form.endTime) e.endTime = 'Required';
     if (!form.place.trim()) e.place = 'Required';
     return e;
   };
@@ -260,20 +315,32 @@ function CampsTab() {
     const errs = validate();
     if (Object.keys(errs).length) { setErrors(errs); return; }
 
+    const payload = {
+      title: form.title,
+      description: form.description || ' ',
+      date: form.date,
+      startTime: form.startTime,
+      endTime: form.endTime,
+      location: form.place,
+      address: form.place,
+      time: `${form.startTime} - ${form.endTime}`,
+      place: form.place,
+    };
+
     const token = sessionStorage.getItem('tvk_admin_auth');
-    fetch('http://localhost:5000/api/camps', {
+    fetch(`${API_BASE_URL}/api/admin/camps`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       },
-      body: JSON.stringify(form)
+      body: JSON.stringify(payload)
     })
       .then(res => res.json())
       .then(data => {
         if (data.success) {
           setCamps([data.data, ...camps]);
-          setForm({ title: '', date: '', time: '', place: '', description: '' });
+          setForm({ title: '', date: '', startTime: '10:00 AM', endTime: '01:00 PM', place: '', description: '' });
           setSaved(true);
           setTimeout(() => setSaved(false), 3000);
         }
@@ -282,7 +349,7 @@ function CampsTab() {
 
   const handleDelete = id => {
     const token = sessionStorage.getItem('tvk_admin_auth');
-    fetch(`http://localhost:5000/api/camps/${id}`, {
+    fetch(`${API_BASE_URL}/api/admin/camps/${id}`, {
       method: 'DELETE',
       headers: { 'Authorization': `Bearer ${token}` }
     })
@@ -336,7 +403,7 @@ function CampsTab() {
             {errors.title && <p style={{ color: '#EF4444', fontSize: '0.75rem', margin: '4px 0 0' }}>{errors.title}</p>}
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
             <div>
               <label style={labelStyle}>Date *</label>
               <input type="date" name="date" value={form.date} onChange={handleChange}
@@ -344,10 +411,14 @@ function CampsTab() {
               {errors.date && <p style={{ color: '#EF4444', fontSize: '0.75rem', margin: '4px 0 0' }}>{errors.date}</p>}
             </div>
             <div>
-              <label style={labelStyle}>Time *</label>
-              <input type="time" name="time" value={form.time} onChange={handleChange}
-                style={{ ...inputStyle(errors.time), colorScheme: 'dark' }} />
-              {errors.time && <p style={{ color: '#EF4444', fontSize: '0.75rem', margin: '4px 0 0' }}>{errors.time}</p>}
+              <label style={labelStyle}>Start Time *</label>
+              <TimeSelect name="startTime" value={form.startTime} onChange={handleChange} hasError={errors.startTime} />
+              {errors.startTime && <p style={{ color: '#EF4444', fontSize: '0.75rem', margin: '4px 0 0' }}>{errors.startTime}</p>}
+            </div>
+            <div>
+              <label style={labelStyle}>End Time *</label>
+              <TimeSelect name="endTime" value={form.endTime} onChange={handleChange} hasError={errors.endTime} />
+              {errors.endTime && <p style={{ color: '#EF4444', fontSize: '0.75rem', margin: '4px 0 0' }}>{errors.endTime}</p>}
             </div>
           </div>
 
@@ -398,7 +469,7 @@ function CampsTab() {
                 📢 {camp.title}
               </p>
               <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', margin: '0 0 2px' }}>
-                📅 {camp.date} &nbsp;·&nbsp; 🕐 {camp.time} &nbsp;·&nbsp; 📍 {camp.place}
+                📅 {camp.date} &nbsp;·&nbsp; 🕐 {camp.time || `${camp.startTime} - ${camp.endTime}`} &nbsp;·&nbsp; 📍 {camp.place || camp.location}
               </p>
               {camp.description && (
                 <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.78rem', margin: '4px 0 0' }}>
@@ -443,18 +514,18 @@ function AdminDashboard() {
 
     // Fetch stats
     Promise.all([
-      fetch('http://localhost:5000/api/complaints', { headers: { 'Authorization': `Bearer ${auth}` } }).then(res => res.json()),
-      fetch('http://localhost:5000/api/camps').then(res => res.json())
+      fetch(`${API_BASE_URL}/api/admin/complaints`, { headers: { 'Authorization': `Bearer ${auth}` } }).then(res => res.json()),
+      fetch(`${API_BASE_URL}/api/admin/camps`, { headers: { 'Authorization': `Bearer ${auth}` } }).then(res => res.json())
     ]).then(([complaintsRes, campsRes]) => {
-       const clist = complaintsRes.success ? complaintsRes.data : [];
-       const campsList = campsRes.success ? campsRes.data : [];
-       setStats({
-          total: clist.length,
-          pending: clist.filter(c => c.status === 'pending').length,
-          inprogress: clist.filter(c => c.status === 'inprogress').length,
-          resolved: clist.filter(c => c.status === 'resolved').length,
-          camps: campsList.length,
-       });
+      const clist = complaintsRes.success ? complaintsRes.data : [];
+      const campsList = campsRes.success ? campsRes.data : [];
+      setStats({
+        total: clist.length,
+        pending: clist.filter(c => { const s = (c.status || '').toLowerCase(); return s === 'pending'; }).length,
+        inprogress: clist.filter(c => { const s = (c.status || '').toLowerCase(); return s === 'inprogress' || s === 'in progress'; }).length,
+        resolved: clist.filter(c => { const s = (c.status || '').toLowerCase(); return s === 'resolved'; }).length,
+        camps: campsList.length,
+      });
     }).catch(err => console.error(err));
   }, [navigate]);
 
