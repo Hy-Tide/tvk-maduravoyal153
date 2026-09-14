@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { API_BASE_URL } from '../config';
 
 // ── Icons ──────────────────────────────────────────────────────────────
@@ -292,6 +293,7 @@ function InfoCard({ icon, label, value }) {
 
 // ── Main Page ──────────────────────────────────────────────────────────
 function ComplaintStatus() {
+  const location = useLocation();
   const [inputId, setInputId] = useState('');
   const [result, setResult] = useState(null);
   const [searched, setSearched] = useState(false);
@@ -299,9 +301,18 @@ function ComplaintStatus() {
   const [isSubmitFocused, setSubmitFocused] = useState(false);
   const [isInputFocused, setInputFocused] = useState(false);
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const trimmed = inputId.trim().toUpperCase();
+  // Auto-search if ID is in the URL (e.g. from email link)
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const idFromUrl = params.get('id');
+    if (idFromUrl) {
+      setInputId(idFromUrl);
+      executeSearch(idFromUrl);
+    }
+  }, [location.search]);
+
+  const executeSearch = (idToSearch) => {
+    const trimmed = idToSearch.trim().toUpperCase();
     if (!trimmed) { setError('Enter a complaint ID to continue.'); return; }
     setSearched(true);
     setError('');
@@ -330,6 +341,11 @@ function ComplaintStatus() {
         setError('Failed to fetch complaint status.');
         setResult(null);
       });
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    executeSearch(inputId);
   };
 
   const handleReset = () => {
