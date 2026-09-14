@@ -7,6 +7,7 @@ import './App.css';
 // Page imports
 import Home from './pages/Home';
 import ComplaintStatus from './pages/ComplaintStatus';
+import Complaint from './pages/Complaint';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import GalleryPage from './pages/GalleryPage';
@@ -261,6 +262,7 @@ function App() {
         <Route element={<Layout lang={lang} setLang={setLang} t={t} />}>
           <Route path="/" element={<Home />} />
           <Route path="/complaint-status" element={<ComplaintStatus />} />
+          <Route path="/complaint" element={<Complaint />} />
           <Route path="/gallery" element={<GalleryPage t={t} />} />
         </Route>
       </Routes>

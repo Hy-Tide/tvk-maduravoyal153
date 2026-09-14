@@ -159,7 +159,23 @@ function ComplaintsTab() {
               /* Inline edit */
               <div>
                 <p style={{ color: 'white', fontWeight: 700, marginBottom: 6 }}>{c.ticketId} — {c.name}</p>
-                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', marginBottom: 12 }}>{c.details}</p>
+                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', marginBottom: 4 }}>
+                  <strong>Voter ID:</strong> {c.voterId || 'N/A'} &nbsp;·&nbsp; <strong>Phone:</strong> {c.mobile || 'N/A'}
+                </p>
+                <p style={{ color: 'rgba(255,255,255,0.45)', fontSize: '0.82rem', marginBottom: 8 }}>
+                  <strong>Address:</strong> {c.address}
+                </p>
+                <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.85rem', marginBottom: 8 }}>{c.description}</p>
+                {c.documentUrl && (
+                  <a 
+                    href={`${API_BASE_URL}${c.documentUrl}`} 
+                    target="_blank" 
+                    rel="noreferrer"
+                    style={{ display: 'inline-block', marginBottom: 12, color: '#ff7a84', fontSize: '0.82rem', fontWeight: 600, textDecoration: 'none', border: '1px solid rgba(217,27,36,0.3)', padding: '4px 10px', borderRadius: 6 }}
+                  >
+                    🖼️ View Attached Image
+                  </a>
+                )}
                 <label style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', display: 'block', marginBottom: 6 }}>
                   Update Status
                 </label>

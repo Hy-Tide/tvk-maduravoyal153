@@ -87,11 +87,30 @@ function Complaint() {
 
     setIsSubmitting(true);
 
+
+    // Create a FormData object to properly send the file along with the text fields
+    const payload = new FormData();
+    payload.append('name', formData.name);
+    payload.append('mobile', formData.phone);
+    payload.append('email', formData.email);
+    payload.append('location', formData.address);
+    payload.append('address', formData.address);
+    payload.append('category', formData.subject.join(', '));
+    if (isOtherCategory) {
+      payload.append('otherCategory', formData.otherSubject);
+    }
+    payload.append('voterId', formData.voterId);
+    payload.append('description', formData.details);
+    if (formData.image) {
+      payload.append('documentUrl', formData.image); 
+    }
+
     // Call the backend API
     fetch(`${API_BASE_URL}/api/complaints`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
+      // Note: When using FormData, DO NOT set the 'Content-Type' header.
+      // The browser will automatically set it to 'multipart/form-data' with the correct boundary.
+      body: payload
     })
       .then(res => res.json())
       .then(data => {
@@ -150,9 +169,8 @@ function Complaint() {
               <h2>{t.successTitle}</h2>
               <p>{t.successMessage}</p>
 
-              <div className="ticket-badge-card">
-                <span className="ticket-label">{t.successTicketLabel}</span>
-                <strong className="ticket-code">{submittedTicket.id}</strong>
+              <div className="ticket-badge-card" style={{ padding: '1rem', border: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(255, 255, 255, 0.05)', borderRadius: '8px', marginTop: '1rem', marginBottom: '1rem' }}>
+                <span className="ticket-label" style={{ fontSize: '1.05rem', color: '#ff7a84', fontWeight: '600' }}>{t.successTicketLabel}</span>
               </div>
 
               <p className="success-subtext">{t.successNote}</p>

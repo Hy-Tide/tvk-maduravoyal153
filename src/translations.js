@@ -150,8 +150,8 @@ export const translations = {
     valInvalidVoterId: "சரியான வாக்காளர் அடையாள அட்டை எண்ணை (10 எழுத்துக்கள்/எண்கள்) உள்ளிடவும்.",
 
     successTitle: "உங்கள் புகார் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டது!",
-    successMessage: "உங்கள் புகார் விவரங்கள் TVK மதுரவாயல் மின்னஞ்சலுக்கு (maduravoyal@tvk.org.in) அனுப்பப்பட்டுள்ளது.",
-    successTicketLabel: "புகார் குறிப்பு எண் (Ticket ID):",
+    successMessage: "உங்கள் புகார் விவரங்கள் TVK மதுரவாயல் மின்னஞ்சலுக்கு (complaints@tvkmaduravoyal153.com) அனுப்பப்பட்டுள்ளது.",
+    successTicketLabel: "உங்கள் புகார் குறிப்பு எண்ணை (Ticket ID) பதிவு செய்யப்பட்ட மின்னஞ்சல் வழியாக பெறுவீர்கள்.",
     successNote: "எங்கள் கள நிர்வாகிகள் விரைவில் உங்களை தொடர்பு கொண்டு நடவடிக்கை எடுப்பார்கள்.",
     newComplaintBtn: "மற்றுமொரு புகார் பதிவு செய்ய",
 
@@ -312,8 +312,8 @@ export const translations = {
     valInvalidVoterId: "Please enter a valid 10-character Voter ID number.",
 
     successTitle: "Complaint Successfully Submitted!",
-    successMessage: "Your complaint details have been dispatched to TVK Maduravoyal official email (maduravoyal@tvk.org.in).",
-    successTicketLabel: "Complaint Reference Ticket ID:",
+    successMessage: "Your complaint details have been dispatched to TVK Maduravoyal official email (complaints@tvkmaduravoyal153.com).",
+    successTicketLabel: "You will receive your Complaint Reference Ticket ID through your registered email.",
     successNote: "Our field team will review your complaint and contact you shortly.",
     newComplaintBtn: "Submit Another Complaint",
 
