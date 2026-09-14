@@ -1,5 +1,5 @@
 import React from 'react';
-import tamilGrievanceHelp from '../assets/IMG_5727.png';
+import tamilGrievanceHelp from '../assets/IMG_5727.PNG';
 
 const EyeIcon = () => (
   <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
