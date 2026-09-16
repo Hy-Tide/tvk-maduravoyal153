@@ -86,19 +86,19 @@ function Home() {
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
-          
+
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
             <span style={{ fontSize: '1.2rem' }}>📢</span>
             <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Announcement
             </h4>
           </div>
-          
+
           <p style={{ margin: '0 0 8px', fontSize: '1.05rem', fontWeight: 600 }}>{latestCamp.title}</p>
           <p style={{ margin: '0 0 10px', fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.4 }}>
             {latestCamp.description}
           </p>
-          
+
           <div style={{ background: 'rgba(0,0,0,0.2)', padding: '0.75rem', borderRadius: 8, fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: 6 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -170,18 +170,8 @@ function Home() {
 
             <div className="hero-stats-bar">
               <div className="stat-card">
-                <div className="stat-num red">{t.stat1Num}</div>
-                <div className="stat-label">{t.stat1Label}</div>
-              </div>
-              <div className="stat-divider"></div>
-              <div className="stat-card">
                 <div className="stat-num yellow">{t.stat2Num}</div>
                 <div className="stat-label">{t.stat2Label}</div>
-              </div>
-              <div className="stat-divider"></div>
-              <div className="stat-card">
-                <div className="stat-num red">{t.stat3Num}</div>
-                <div className="stat-label">{t.stat3Label}</div>
               </div>
               <div className="stat-divider"></div>
               <div className="stat-card">
