@@ -2042,3 +2042,158 @@
   box-shadow: 0 8px 25px rgba(255, 199, 0, 0.6);
   background: linear-gradient(135deg, #FFD533 0%, #FFC700 100%);
 }
+
+/* ==========================================================================
+   Camp Alert Slider / Marquee Notification Bar
+   ========================================================================== */
+.camp-alert-marquee-bar {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(90deg, #1b0204 0%, #260507 50%, #1b0204 100%);
+  border-top: 1px solid rgba(255, 199, 0, 0.4);
+  border-bottom: 1.5px solid rgba(217, 27, 36, 0.6);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
+  padding: 6px 12px;
+  position: relative;
+  z-index: 95;
+  overflow: hidden;
+  user-select: none;
+}
+
+.camp-alert-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #d91b24, #990b13);
+  padding: 4px 10px;
+  border-radius: 4px;
+  color: #fff;
+  flex-shrink: 0;
+  z-index: 2;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 199, 0, 0.35);
+}
+
+.camp-alert-icon {
+  font-size: 13px;
+  animation: campPulse 2s infinite ease-in-out;
+}
+
+@keyframes campPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.camp-alert-badge {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: #ffc700;
+}
+
+.camp-alert-ticker-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  margin: 0 14px;
+  display: flex;
+  white-space: nowrap;
+  mask-image: linear-gradient(to right, transparent, black 25px, black calc(100% - 25px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 25px, black calc(100% - 25px), transparent);
+}
+
+.camp-alert-ticker-track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: campAlertScroll 40s linear infinite;
+  will-change: transform;
+}
+
+.camp-alert-marquee-bar:hover .camp-alert-ticker-track {
+  animation-play-state: paused;
+}
+
+.camp-alert-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 60px;
+  font-size: 13px;
+  color: #f1f3f9;
+}
+
+.camp-alert-star {
+  color: #ffc700;
+  font-size: 11px;
+}
+
+.camp-alert-title {
+  font-weight: 700;
+  color: #ff4d58;
+  letter-spacing: 0.3px;
+}
+
+.camp-alert-desc {
+  color: #e5e7eb;
+  font-weight: 500;
+}
+
+.camp-alert-meta {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 199, 0, 0.25);
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 11.5px;
+  color: #ffc700;
+  font-weight: 600;
+}
+
+.camp-alert-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.7);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  flex-shrink: 0;
+  z-index: 2;
+  transition: all 0.2s ease;
+}
+
+.camp-alert-close-btn:hover {
+  background: #d91b24;
+  color: #fff;
+  border-color: #d91b24;
+}
+
+@keyframes campAlertScroll {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 600px) {
+  .camp-alert-marquee-bar {
+    padding: 6px 8px;
+  }
+  .camp-alert-badge {
+    display: none;
+  }
+  .camp-alert-ticker-container {
+    margin: 0 8px;
+  }
+  .camp-alert-content {
+    font-size: 12px;
+    gap: 8px;
+    padding-right: 40px;
+  }
+}

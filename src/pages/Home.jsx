@@ -48,9 +48,36 @@ function Home() {
       .then(res => res.json())
       .then(data => {
         if (data.success && data.data && data.data.length > 0) {
-          // Sort by creation date descending to get the newest
-          const activeCamps = data.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-          setLatestCamp(activeCamps[0]);
+          // Normalize today to start of day (midnight)
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+
+          // Filter out camps whose date is in the past
+          const upcomingCamps = data.data.filter(c => {
+            if (!c.date) return true; // keep if no date specified
+            const campDate = new Date(c.date);
+            // If valid date, compare with end of that day (23:59:59)
+            if (!isNaN(campDate.getTime())) {
+              campDate.setHours(23, 59, 59, 999);
+              return campDate >= today;
+            }
+            return true;
+          });
+
+          if (upcomingCamps.length > 0) {
+            // Sort by nearest upcoming date first, or newly created
+            upcomingCamps.sort((a, b) => {
+              const dateA = new Date(a.date);
+              const dateB = new Date(b.date);
+              if (!isNaN(dateA.getTime()) && !isNaN(dateB.getTime())) {
+                return dateA - dateB;
+              }
+              return new Date(b.createdAt || b.postedAt || 0) - new Date(a.createdAt || a.postedAt || 0);
+            });
+            setLatestCamp(upcomingCamps[0]);
+          } else {
+            setLatestCamp(null);
+          }
         }
       })
       .catch(err => console.error('Failed to fetch camps:', err));
@@ -59,64 +86,55 @@ function Home() {
   return (
     <div className="single-page-content">
 
-      {/* Floating Camp Alert */}
+      {/* Ticker / Slider Camp Alert Banner */}
       {latestCamp && !hideAlert && (
-        <div style={{
-          position: 'fixed',
-          bottom: 24,
-          right: 24,
-          background: 'linear-gradient(135deg, rgba(217,27,36,0.9), rgba(153,17,24,0.95))',
-          backdropFilter: 'blur(10px)',
-          border: '1px solid rgba(255,255,255,0.2)',
-          borderRadius: 16,
-          padding: '1.25rem 1.5rem',
-          maxWidth: 380,
-          boxShadow: '0 10px 40px rgba(0,0,0,0.5)',
-          zIndex: 9999,
-          color: 'white',
-          animation: 'slideInUp 0.5s ease-out forwards'
-        }}>
-          <button onClick={() => setHideAlert(true)} style={{
-            position: 'absolute', top: 12, right: 12,
-            background: 'none', border: 'none', color: 'rgba(255,255,255,0.7)',
-            cursor: 'pointer', padding: 4, display: 'flex', alignItems: 'center'
-          }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
+        <div className="camp-alert-marquee-bar">
+          <div className="camp-alert-label">
+            <span className="camp-alert-icon">📢</span>
+            <span className="camp-alert-badge">CAMP ALERT</span>
+          </div>
+
+          <div className="camp-alert-ticker-container">
+            <div className="camp-alert-ticker-track">
+              <div className="camp-alert-content">
+                <span className="camp-alert-star">★</span>
+                <span className="camp-alert-title">{latestCamp.title}:</span>
+                <span className="camp-alert-desc">{latestCamp.description}</span>
+                {(latestCamp.date || latestCamp.startTime) && (
+                  <span className="camp-alert-meta">
+                    📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
+                  </span>
+                )}
+                {latestCamp.location && (
+                  <span className="camp-alert-meta">📍 {latestCamp.location}</span>
+                )}
+              </div>
+
+              {/* Duplicate track content for seamless continuous right-to-left scrolling */}
+              <div className="camp-alert-content" aria-hidden="true">
+                <span className="camp-alert-star">★</span>
+                <span className="camp-alert-title">{latestCamp.title}:</span>
+                <span className="camp-alert-desc">{latestCamp.description}</span>
+                {(latestCamp.date || latestCamp.startTime) && (
+                  <span className="camp-alert-meta">
+                    📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
+                  </span>
+                )}
+                {latestCamp.location && (
+                  <span className="camp-alert-meta">📍 {latestCamp.location}</span>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <button 
+            className="camp-alert-close-btn"
+            onClick={() => setHideAlert(true)} 
+            aria-label="Close notification"
+            title="Close notification"
+          >
+            ✕
           </button>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-            <span style={{ fontSize: '1.2rem' }}>📢</span>
-            <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              Announcement
-            </h4>
-          </div>
-
-          <p style={{ margin: '0 0 8px', fontSize: '1.05rem', fontWeight: 600 }}>{latestCamp.title}</p>
-          <p style={{ margin: '0 0 10px', fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', lineHeight: 1.4 }}>
-            {latestCamp.description}
-          </p>
-
-          <div style={{ background: 'rgba(0,0,0,0.2)', padding: '0.75rem', borderRadius: 8, fontSize: '0.8rem', display: 'flex', flexDirection: 'column', gap: 6 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              <span>{latestCamp.date} • {latestCamp.startTime} - {latestCamp.endTime}</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 6 }}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }}>
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              <span style={{ lineHeight: 1.3 }}>{latestCamp.location}</span>
-            </div>
-          </div>
         </div>
       )}
 

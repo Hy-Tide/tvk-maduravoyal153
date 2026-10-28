@@ -474,19 +474,45 @@ function CampsTab() {
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {camps.map(camp => (
-          <div key={camp._id} style={{
-            background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: 14, padding: '1rem 1.25rem',
-            display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12,
-          }}>
-            <div style={{ flex: 1 }}>
-              <p style={{ color: 'white', fontWeight: 700, margin: '0 0 4px', fontSize: '0.95rem' }}>
-                📢 {camp.title}
-              </p>
-              <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', margin: '0 0 2px' }}>
-                📅 {camp.date} &nbsp;·&nbsp; 🕐 {camp.time || `${camp.startTime} - ${camp.endTime}`} &nbsp;·&nbsp; 📍 {camp.place || camp.location}
-              </p>
+        {camps.map(camp => {
+          const isExpired = (() => {
+            if (!camp.date) return false;
+            const cDate = new Date(camp.date);
+            if (isNaN(cDate.getTime())) return false;
+            cDate.setHours(23, 59, 59, 999);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            return cDate < today;
+          })();
+
+          return (
+            <div key={camp._id} style={{
+              background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 14, padding: '1rem 1.25rem',
+              display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12,
+              opacity: isExpired ? 0.6 : 1,
+            }}>
+              <div style={{ flex: 1 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                  <p style={{ color: 'white', fontWeight: 700, margin: 0, fontSize: '0.95rem' }}>
+                    📢 {camp.title}
+                  </p>
+                  <span style={{
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    padding: '2px 8px',
+                    borderRadius: 999,
+                    textTransform: 'uppercase',
+                    background: isExpired ? 'rgba(239, 68, 68, 0.15)' : 'rgba(16, 185, 129, 0.15)',
+                    color: isExpired ? '#f87171' : '#34d399',
+                    border: `1px solid ${isExpired ? 'rgba(239, 68, 68, 0.3)' : 'rgba(16, 185, 129, 0.3)'}`
+                  }}>
+                    {isExpired ? 'Expired / Inactive' : 'Active'}
+                  </span>
+                </div>
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', margin: '0 0 2px' }}>
+                  📅 {camp.date} &nbsp;·&nbsp; 🕐 {camp.time || `${camp.startTime} - ${camp.endTime}`} &nbsp;·&nbsp; 📍 {camp.place || camp.location}
+                </p>
               {camp.description && (
                 <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '0.78rem', margin: '4px 0 0' }}>
                   {camp.description}
@@ -508,7 +534,8 @@ function CampsTab() {
               <IconTrash />
             </button>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
