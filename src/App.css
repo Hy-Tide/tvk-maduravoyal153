@@ -2147,6 +2147,40 @@
   font-size: 11.5px;
   color: #ffc700;
   font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.camp-alert-phone {
+  background: rgba(255, 199, 0, 0.16) !important;
+  border: 1px solid #ffc700 !important;
+  color: #ffc700 !important;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.camp-alert-phone:hover {
+  background: #ffc700 !important;
+  color: #0b0f19 !important;
+  box-shadow: 0 0 10px rgba(255, 199, 0, 0.5);
+}
+
+.camp-alert-urgent {
+  background: rgba(217, 27, 36, 0.25) !important;
+  border: 1px solid rgba(255, 77, 88, 0.5) !important;
+  color: #ff9da4 !important;
+  font-weight: 600;
+}
+
+.camp-alert-signoff {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 0 6px;
+  border-left: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .camp-alert-close-btn {

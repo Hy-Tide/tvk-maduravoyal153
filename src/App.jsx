@@ -217,7 +217,7 @@ function Layout({ lang, setLang, t }) {
 
       {/* Page Content via Outlet */}
       <main className="single-page-content">
-        <Outlet context={{ t }} />
+        <Outlet context={{ t, lang }} />
       </main>
 
       {/* Footer — hidden on admin page */}

@@ -13,6 +13,16 @@ export const translations = {
     topBarText: "மக்களின் குரல் — TVK மதுரவாயல் தொகுதி",
     hotlineLabel: "இலவச உதவி எண்:",
 
+    // Home Page Running Alert
+    runningAlert: {
+      badge: "முக்கிய அறிவிப்பு",
+      area: "போரூர் பகுதியில்",
+      complaintText: "மழைநீர் தேங்குதல், மரம் விழுதல், மின்வெட்டு, மின் கசிவு போன்ற புகார்களுக்கு உடனடியாகத் தெரிவிக்கவும்.",
+      phone: "8148543433",
+      urgentNote: "ஏதேனும் பாதிப்பு ஏற்பட்டால் உடனடியாகத் தெரிவிக்கவும்.",
+      signoff: "என்றும் மக்கள் பணியில்: ம. ஹரிஹரன், B.Tech (153 வட்ட செயலாளர்)"
+    },
+
     // Home Page
     heroTagline1: "மக்களுக்காக, மக்களால்",
     heroTitlePrefix: "தமிழக வெற்றிக் கழகம்",
@@ -174,6 +184,16 @@ export const translations = {
 
     topBarText: "Voice of the People — TVK Maduravoyal Constituency",
     hotlineLabel: "Toll-Free Helpline:",
+
+    // Home Page Running Alert
+    runningAlert: {
+      badge: "IMPORTANT ALERT",
+      area: "In the Porur Area",
+      complaintText: "For complaints related to: Rainwater stagnation, Fallen trees, Power cuts, Electrical leakage — Please report the issues immediately.",
+      phone: "8148543433",
+      urgentNote: "If any damage or emergency occurs, inform us immediately.",
+      signoff: "Always in the Service of the People: M. Hariharan, B.Tech (153rd Ward Secretary)"
+    },
 
     // Home Page
     heroTagline1: "For the people, by the people",

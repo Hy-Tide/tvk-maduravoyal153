@@ -86,42 +86,84 @@ function Home() {
   return (
     <div className="single-page-content">
 
-      {/* Ticker / Slider Camp Alert Banner */}
-      {latestCamp && !hideAlert && (
-        <div className="camp-alert-marquee-bar">
+      {/* Ticker / Slider Running Alert Banner */}
+      {!hideAlert && (
+        <div className="camp-alert-marquee-bar" role="region" aria-label="Announcements & Alerts">
           <div className="camp-alert-label">
             <span className="camp-alert-icon">📢</span>
-            <span className="camp-alert-badge">CAMP ALERT</span>
+            <span className="camp-alert-badge">{t.runningAlert?.badge || 'ALERT'}</span>
           </div>
 
           <div className="camp-alert-ticker-container">
             <div className="camp-alert-ticker-track">
               <div className="camp-alert-content">
-                <span className="camp-alert-star">★</span>
-                <span className="camp-alert-title">{latestCamp.title}:</span>
-                <span className="camp-alert-desc">{latestCamp.description}</span>
-                {(latestCamp.date || latestCamp.startTime) && (
-                  <span className="camp-alert-meta">
-                    📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
-                  </span>
-                )}
-                {latestCamp.location && (
-                  <span className="camp-alert-meta">📍 {latestCamp.location}</span>
+                <span className="camp-alert-star">🚨</span>
+                <span className="camp-alert-title">{t.runningAlert?.area || 'போரூர் பகுதியில்'}:</span>
+                <span className="camp-alert-desc">{t.runningAlert?.complaintText}</span>
+                <a 
+                  href={`tel:${t.runningAlert?.phone || '8148543433'}`}
+                  className="camp-alert-meta camp-alert-phone"
+                  title="Call Helpline"
+                >
+                  📞 {t.runningAlert?.phone || '8148543433'}
+                </a>
+                <span className="camp-alert-meta camp-alert-urgent">
+                  ⚠️ {t.runningAlert?.urgentNote}
+                </span>
+                <span className="camp-alert-signoff">
+                  {t.runningAlert?.signoff}
+                </span>
+
+                {latestCamp && (
+                  <>
+                    <span className="camp-alert-star" style={{ marginLeft: '24px' }}>★</span>
+                    <span className="camp-alert-title">{latestCamp.title}:</span>
+                    <span className="camp-alert-desc">{latestCamp.description}</span>
+                    {(latestCamp.date || latestCamp.startTime) && (
+                      <span className="camp-alert-meta">
+                        📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
+                      </span>
+                    )}
+                    {latestCamp.location && (
+                      <span className="camp-alert-meta">📍 {latestCamp.location}</span>
+                    )}
+                  </>
                 )}
               </div>
 
               {/* Duplicate track content for seamless continuous right-to-left scrolling */}
               <div className="camp-alert-content" aria-hidden="true">
-                <span className="camp-alert-star">★</span>
-                <span className="camp-alert-title">{latestCamp.title}:</span>
-                <span className="camp-alert-desc">{latestCamp.description}</span>
-                {(latestCamp.date || latestCamp.startTime) && (
-                  <span className="camp-alert-meta">
-                    📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
-                  </span>
-                )}
-                {latestCamp.location && (
-                  <span className="camp-alert-meta">📍 {latestCamp.location}</span>
+                <span className="camp-alert-star">🚨</span>
+                <span className="camp-alert-title">{t.runningAlert?.area || 'போரூர் பகுதியில்'}:</span>
+                <span className="camp-alert-desc">{t.runningAlert?.complaintText}</span>
+                <a 
+                  href={`tel:${t.runningAlert?.phone || '8148543433'}`}
+                  className="camp-alert-meta camp-alert-phone"
+                  tabIndex="-1"
+                >
+                  📞 {t.runningAlert?.phone || '8148543433'}
+                </a>
+                <span className="camp-alert-meta camp-alert-urgent">
+                  ⚠️ {t.runningAlert?.urgentNote}
+                </span>
+                <span className="camp-alert-signoff">
+                  {t.runningAlert?.signoff}
+                </span>
+
+                {latestCamp && (
+                  <>
+                    <span className="camp-alert-star" style={{ marginLeft: '24px' }}>★</span>
+                    <span className="camp-alert-title">{latestCamp.title}:</span>
+                    <span className="camp-alert-desc">{latestCamp.description}</span>
+                    {(latestCamp.date || latestCamp.startTime) && (
+                      <span className="camp-alert-meta">
+                        📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
+                      </span>
+                    )}
+                    {latestCamp.location && (
+                      <span className="camp-alert-meta">📍 {latestCamp.location}</span>
+                    )}
+                  </>
                 )}
               </div>
             </div>
