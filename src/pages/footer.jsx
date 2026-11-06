@@ -93,7 +93,7 @@ function Footer({ t }) {
             <p>&copy; {new Date().getFullYear()} {t.footerCopyright}</p>
           </div>
           <div className="footer-dots">
-            <p className="footer-designed-by"></p>
+            <p className="footer-designed-by">{t.footerDesignedBy}</p>
           </div>
         </div>
       </div>

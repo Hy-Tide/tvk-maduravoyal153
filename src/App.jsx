@@ -216,7 +216,7 @@ function Layout({ lang, setLang, t }) {
       </header>
 
       {/* Page Content via Outlet */}
-      <main className="single-page-content">
+      <main className="app-main">
         <Outlet context={{ t, lang }} />
       </main>
 

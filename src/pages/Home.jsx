@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import tvkLogo from '../assets/TVK-LOGO.png';
-import tvkBanner from '../assets/Banner_1.png';
-import tvkBanner1 from '../assets/Banner_3.jpeg';
-import tvkBanner2 from '../assets/Banner_2.png';
+import heroImage2 from '../assets/2.png';
 import About from './about';
 import Complaint from './Complaint';
 import Contact from './Contact';
@@ -30,15 +28,7 @@ function Home() {
   const { t } = useOutletContext();
   const navigate = useNavigate();
 
-  const heroBannerImages = [tvkBanner, tvkBanner1, tvkBanner2];
-  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
-
-  useEffect(() => {
-    const slideTimer = setInterval(() => {
-      setCurrentSlideIndex((prevIndex) => (prevIndex + 1) % heroBannerImages.length);
-    }, 5000);
-    return () => clearInterval(slideTimer);
-  }, [heroBannerImages.length]);
+  // Hero slider replaced with static 2.png image as requested
 
   const [latestCamp, setLatestCamp] = useState(null);
   const [hideAlert, setHideAlert] = useState(false);
@@ -84,231 +74,232 @@ function Home() {
   }, []);
 
   return (
-    <div className="single-page-content">
+      <div className="home-page-layout">
 
-      {/* Ticker / Slider Running Alert Banner */}
-      {!hideAlert && (
-        <div className="camp-alert-marquee-bar" role="region" aria-label="Announcements & Alerts">
-          <div className="camp-alert-label">
-            <span className="camp-alert-icon">📢</span>
-            <span className="camp-alert-badge">{t.runningAlert?.badge || 'ALERT'}</span>
-          </div>
+        {/* Ticker / Running Alert Banner */}
+        {!hideAlert && (
+          <div className="camp-alert-marquee-bar" role="region" aria-label="Announcements & Alerts">
+            <div className="camp-alert-label">
+              <span className="camp-alert-icon">📢</span>
+              <span className="camp-alert-badge">{t.runningAlert?.badge || 'ALERT'}</span>
+            </div>
 
-          <div className="camp-alert-ticker-container">
-            <div className="camp-alert-ticker-track">
-              <div className="camp-alert-content">
-                <span className="camp-alert-star">🚨</span>
-                <span className="camp-alert-title">{t.runningAlert?.area || 'போரூர் பகுதியில்'}:</span>
-                <span className="camp-alert-desc">{t.runningAlert?.complaintText}</span>
-                <a 
-                  href={`tel:${t.runningAlert?.phone || '8148543433'}`}
-                  className="camp-alert-meta camp-alert-phone"
-                  title="Call Helpline"
-                >
-                  📞 {t.runningAlert?.phone || '8148543433'}
-                </a>
-                <span className="camp-alert-meta camp-alert-urgent">
-                  ⚠️ {t.runningAlert?.urgentNote}
-                </span>
-                <span className="camp-alert-signoff">
-                  {t.runningAlert?.signoff}
-                </span>
+            <div className="camp-alert-ticker-container">
+              <div className="camp-alert-ticker-track">
+                <div className="camp-alert-content">
+                  <span className="camp-alert-star">🚨</span>
+                  <span className="camp-alert-title">{t.runningAlert?.area || 'போரூர் பகுதியில்'}:</span>
+                  <span className="camp-alert-desc">{t.runningAlert?.complaintText}</span>
+                  <a
+                    href={`tel:${t.runningAlert?.phone || '8148543433'}`}
+                    className="camp-alert-meta camp-alert-phone"
+                    title="Call Helpline"
+                  >
+                    📞 {t.runningAlert?.phone || '8148543433'}
+                  </a>
+                  <span className="camp-alert-meta camp-alert-urgent">
+                    ⚠️ {t.runningAlert?.urgentNote}
+                  </span>
+                  <span className="camp-alert-signoff">
+                    {t.runningAlert?.signoff}
+                  </span>
 
-                {latestCamp && (
-                  <>
-                    <span className="camp-alert-star" style={{ marginLeft: '24px' }}>★</span>
-                    <span className="camp-alert-title">{latestCamp.title}:</span>
-                    <span className="camp-alert-desc">{latestCamp.description}</span>
-                    {(latestCamp.date || latestCamp.startTime) && (
-                      <span className="camp-alert-meta">
-                        📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
-                      </span>
-                    )}
-                    {latestCamp.location && (
-                      <span className="camp-alert-meta">📍 {latestCamp.location}</span>
-                    )}
-                  </>
-                )}
-              </div>
+                  {latestCamp && (
+                    <>
+                      <span className="camp-alert-star" style={{ marginLeft: '24px' }}>★</span>
+                      <span className="camp-alert-title">{latestCamp.title}:</span>
+                      <span className="camp-alert-desc">{latestCamp.description}</span>
+                      {(latestCamp.date || latestCamp.startTime) && (
+                        <span className="camp-alert-meta">
+                          📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
+                        </span>
+                      )}
+                      {latestCamp.location && (
+                        <span className="camp-alert-meta">📍 {latestCamp.location}</span>
+                      )}
+                    </>
+                  )}
+                </div>
 
-              {/* Duplicate track content for seamless continuous right-to-left scrolling */}
-              <div className="camp-alert-content" aria-hidden="true">
-                <span className="camp-alert-star">🚨</span>
-                <span className="camp-alert-title">{t.runningAlert?.area || 'போரூர் பகுதியில்'}:</span>
-                <span className="camp-alert-desc">{t.runningAlert?.complaintText}</span>
-                <a 
-                  href={`tel:${t.runningAlert?.phone || '8148543433'}`}
-                  className="camp-alert-meta camp-alert-phone"
-                  tabIndex="-1"
-                >
-                  📞 {t.runningAlert?.phone || '8148543433'}
-                </a>
-                <span className="camp-alert-meta camp-alert-urgent">
-                  ⚠️ {t.runningAlert?.urgentNote}
-                </span>
-                <span className="camp-alert-signoff">
-                  {t.runningAlert?.signoff}
-                </span>
+                {/* Duplicate track content for seamless continuous right-to-left scrolling */}
+                <div className="camp-alert-content" aria-hidden="true">
+                  <span className="camp-alert-star">🚨</span>
+                  <span className="camp-alert-title">{t.runningAlert?.area || 'போரூர் பகுதியில்'}:</span>
+                  <span className="camp-alert-desc">{t.runningAlert?.complaintText}</span>
+                  <a
+                    href={`tel:${t.runningAlert?.phone || '8148543433'}`}
+                    className="camp-alert-meta camp-alert-phone"
+                    tabIndex="-1"
+                  >
+                    📞 {t.runningAlert?.phone || '8148543433'}
+                  </a>
+                  <span className="camp-alert-meta camp-alert-urgent">
+                    ⚠️ {t.runningAlert?.urgentNote}
+                  </span>
+                  <span className="camp-alert-signoff">
+                    {t.runningAlert?.signoff}
+                  </span>
 
-                {latestCamp && (
-                  <>
-                    <span className="camp-alert-star" style={{ marginLeft: '24px' }}>★</span>
-                    <span className="camp-alert-title">{latestCamp.title}:</span>
-                    <span className="camp-alert-desc">{latestCamp.description}</span>
-                    {(latestCamp.date || latestCamp.startTime) && (
-                      <span className="camp-alert-meta">
-                        📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
-                      </span>
-                    )}
-                    {latestCamp.location && (
-                      <span className="camp-alert-meta">📍 {latestCamp.location}</span>
-                    )}
-                  </>
-                )}
+                  {latestCamp && (
+                    <>
+                      <span className="camp-alert-star" style={{ marginLeft: '24px' }}>★</span>
+                      <span className="camp-alert-title">{latestCamp.title}:</span>
+                      <span className="camp-alert-desc">{latestCamp.description}</span>
+                      {(latestCamp.date || latestCamp.startTime) && (
+                        <span className="camp-alert-meta">
+                          📅 {latestCamp.date} {latestCamp.startTime && `(${latestCamp.startTime} - ${latestCamp.endTime})`}
+                        </span>
+                      )}
+                      {latestCamp.location && (
+                        <span className="camp-alert-meta">📍 {latestCamp.location}</span>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
             </div>
+
+            <button
+              className="camp-alert-close-btn"
+              onClick={() => setHideAlert(true)}
+              aria-label="Close notification"
+              title="Close notification"
+            >
+              ✕
+            </button>
           </div>
-
-          <button 
-            className="camp-alert-close-btn"
-            onClick={() => setHideAlert(true)} 
-            aria-label="Close notification"
-            title="Close notification"
-          >
-            ✕
-          </button>
-        </div>
-      )}
+        )}
 
 
-      {/* HERO SECTION */}
-      <section id="home" className="page-section home-section">
-        <div className="hero-banner-container">
+        {/* HERO SECTION */}
+        <section id="home" className="page-section home-section">
+          <div className="hero-banner-container">
 
-          {heroBannerImages.map((imgSrc, index) => (
+            {/* Single static hero background image (2.png) replacing slider */}
             <div
-              key={index}
-              className={`hero-slide-bg ${index === currentSlideIndex ? 'active' : ''}`}
+              className="hero-slide-bg active"
               style={{
-                backgroundImage: `linear-gradient(135deg, rgba(10,13,20,0.88) 0%, rgba(18,22,36,0.75) 50%, rgba(217,27,36,0.3) 100%), url(${imgSrc})`
+                backgroundImage: `linear-gradient(180deg, rgba(10,13,20,0.85) 0%, rgba(18,22,36,0.55) 50%, rgba(10,13,20,0.85) 100%), url(${heroImage2})`
               }}
             />
-          ))}
 
-          <div className="hero-grid-pattern"></div>
+            <div className="hero-grid-pattern"></div>
 
-          <div className="hero-content">
-            <div className="hero-pill-tag">
-              <span className="flag-dot"></span>
-              {t.heroTagline1}
-            </div>
-
-            <h1 className="hero-main-title">
-              <span className="title-red">{t.heroTitlePrefix}</span>
-              <span className="title-sub">{t.heroTitleSub}</span>
-            </h1>
-
-            <p className="hero-subtitle">{t.heroSubtitle}</p>
-
-            <div className="hero-actions">
-              <button className="btn-hero-primary" onClick={() => navigate('/complaint')}>
-                {t.heroCtaComplaint} <ArrowRightIcon />
-              </button>
-              <button className="btn-hero-secondary" onClick={() => {
-                const el = document.getElementById('about');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}>
-                {t.heroCtaAbout}
-              </button>
-              <button className="btn-hero-secondary" onClick={() => {
-                const el = document.getElementById('gallery');
-                if (el) el.scrollIntoView({ behavior: 'smooth' });
-              }}>
-                {t.heroCtaGallery}
-              </button>
-            </div>
-
-            <div className="hero-stats-bar">
-              <div className="stat-card">
-                <div className="stat-num yellow">{t.stat2Num}</div>
-                <div className="stat-label">{t.stat2Label}</div>
+            <div className="hero-content">
+              <div className="hero-pill-tag">
+                <span className="flag-dot"></span>
+                {t.heroTagline1}
               </div>
-              <div className="stat-divider"></div>
-              <div className="stat-card">
-                <div className="stat-num yellow">{t.stat4Num}</div>
-                <div className="stat-label">{t.stat4Label}</div>
-              </div>
-            </div>
-          </div>
 
-          <div className="hero-emblem-wrapper">
-            <div className="hero-emblem-card">
-              <img src={tvkLogo} alt="TVK Emblem" className="hero-logo-emblem" />
-              <div className="emblem-label">TVK MADURAVOYAL</div>
-            </div>
-          </div>
+              <h1 className="hero-main-title">
+                <span className="title-red">{t.heroTitlePrefix}</span>
+                <span className="title-sub">{t.heroTitleSub}</span>
+              </h1>
 
-        </div>
-      </section>
+              <p className="hero-subtitle">{t.heroSubtitle}</p>
 
-      <About t={t} />
-
-      {/* QUICK PORTALS SECTION */}
-      <section className="page-section quick-portals-wrapper">
-        <div className="home-portals-section">
-          <div className="container">
-            <div className="section-title-wrapper">
-              <div className="vertical-lines">
-                <div className="line-yellow"></div>
-              </div>
-              <div>
-                <h2 className="section-title">{t.homeQuickActionsTitle}</h2>
-              </div>
-            </div>
-
-            <div className="portals-grid">
-              <div className="portal-card border-red">
-                <div className="portal-icon red"><FlagIcon /></div>
-                <h3>{t.homeAction1Title}</h3>
-                <p>{t.homeAction1Desc}</p>
-                <button className="btn-primary-glow" onClick={() => navigate('/complaint')}>
-                  {t.navComplaint} <ArrowRightIcon />
+              <div className="hero-actions">
+                <button className="btn-hero-primary" onClick={() => navigate('/complaint')}>
+                  {t.heroCtaComplaint} <ArrowRightIcon />
+                </button>
+                <button className="btn-hero-secondary" onClick={() => {
+                  const el = document.getElementById('about');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  {t.heroCtaAbout}
+                </button>
+                <button className="btn-hero-secondary" onClick={() => {
+                  const el = document.getElementById('gallery');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                  {t.heroCtaGallery}
                 </button>
               </div>
 
-              {/* <div className="portal-card border-yellow">
-                <div className="portal-icon yellow"><MapPinIcon /></div>
-                <h3>{t.homeAction2Title}</h3>
-                <p>{t.homeAction2Desc}</p>
-                <button className="btn-secondary-glow" onClick={() => navigate('/contact')}>
-                  {t.navContact} <ArrowRightIcon />
-                </button>
-              </div> */}
-
-              <div className="portal-card border-red">
-                <div className="portal-icon red">
-                  <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                    <path d="M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v4c1.1 0 2 .9 2 2s-.9 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-2-1.46c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-2-3.46V6h16v2.54z" />
-                  </svg>
+              <div className="hero-stats-bar">
+                <div className="stat-card">
+                  <div className="stat-num yellow">{t.stat2Num}</div>
+                  <div className="stat-label">{t.stat2Label}</div>
                 </div>
-                <h3>Know Your Complaint Status</h3>
-                <p>Already filed a complaint? Track its live progress using your Complaint ID.</p>
-                <button className="btn-primary-glow" onClick={() => navigate('/complaint-status')}>
-                  Track Now <ArrowRightIcon />
-                </button>
+                <div className="stat-divider"></div>
+                <div className="stat-card">
+                  <div className="stat-num yellow">{t.stat4Num}</div>
+                  <div className="stat-label">{t.stat4Label}</div>
+                </div>
               </div>
-
             </div>
-          </div>
-        </div>
-      </section>
 
-      <Schemes t={t} />
-      <Gallery t={t} />
-      <Complaint />
-      <Contact t={t} />
-    </div>
-  );
+            <div className="hero-emblem-wrapper">
+              <div className="hero-emblem-card">
+                <img src={tvkLogo} alt="TVK Emblem" className="hero-logo-emblem" />
+                <div className="emblem-label">TVK MADURAVOYAL</div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        {/* Remaining sections with standard vertical gap */}
+        <div className="single-page-content" style={{ marginTop: '0px' }}>
+          <About t={t} />
+
+                    {/* QUICK PORTALS SECTION */}
+                    <section className="page-section quick-portals-wrapper">
+                      <div className="home-portals-section">
+                        <div className="container">
+                          <div className="section-title-wrapper">
+                            <div className="vertical-lines">
+                              <div className="line-yellow"></div>
+                            </div>
+                            <div>
+                              <h2 className="section-title">{t.homeQuickActionsTitle}</h2>
+                            </div>
+                          </div>
+
+                          <div className="portals-grid">
+                            <div className="portal-card border-red">
+                              <div className="portal-icon red"><FlagIcon /></div>
+                              <h3>{t.homeAction1Title}</h3>
+                              <p>{t.homeAction1Desc}</p>
+                              <button className="btn-primary-glow" onClick={() => navigate('/complaint')}>
+                                {t.navComplaint} <ArrowRightIcon />
+                              </button>
+                            </div>
+
+                            {/* <div className="portal-card border-yellow">
+                  <div className="portal-icon yellow"><MapPinIcon /></div>
+                  <h3>{t.homeAction2Title}</h3>
+                  <p>{t.homeAction2Desc}</p>
+                  <button className="btn-secondary-glow" onClick={() => navigate('/contact')}>
+                    {t.navContact} <ArrowRightIcon />
+                  </button>
+                </div> */}
+
+                                <div className="portal-card border-red">
+                                  <div className="portal-icon red">
+                                    <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                                      <path d="M22 10V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v4c1.1 0 2 .9 2 2s-.9 2-2 2v4c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2v-4c-1.1 0-2-.9-2-2s.9-2 2-2zm-2-1.46c-1.19.69-2 1.99-2 3.46s.81 2.77 2 3.46V18H4v-2.54c1.19-.69 2-1.99 2-3.46 0-1.48-.8-2.77-2-3.46V6h16v2.54z" />
+                                    </svg>
+                                  </div>
+                                  <h3>Know Your Complaint Status</h3>
+                                  <p>Already filed a complaint? Track its live progress using your Complaint ID.</p>
+                                  <button className="btn-primary-glow" onClick={() => navigate('/complaint-status')}>
+                                    Track Now <ArrowRightIcon />
+                                  </button>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                  </section>
+
+                  <Schemes t={t} />
+                  <Gallery t={t} />
+                  <Complaint />
+                  <Contact t={t} />
+                </div>
+              </div>
+              );
 }
 
-export default Home;
+              export default Home;
